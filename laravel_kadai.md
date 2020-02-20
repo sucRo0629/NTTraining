@@ -125,3 +125,25 @@ Laravel development server started: <http://127.0.0.1:8000>
 ![Laravelトップ画面](img/2020-02-07-154550.png)
 
 以上で環境構築は完了となる。
+
+### （おまけ）Debugbarのインストール
+
+作成したプロジェクトディレクトリで
+```
+composer require barryvdh/laravel-debugbar:~2.4
+```
+
+［プロジェクト名］/config/app.php に以下の設定を追加。
+
+- 'providers'
+```
+Barryvdh\Debugbar\ServiceProvider::class,
+```
+
+- 'aliases'
+```
+'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+```
+
+.envの設定が`APP_DEBUG=true`になっていればLarabel画面の下にDebugbarが表示される
+![Debugbar](/Kadai/img/2020-02-20-172520.png)
