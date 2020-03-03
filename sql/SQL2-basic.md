@@ -47,7 +47,7 @@
   }
 </style>
 
-# SQL チュートリアル - SELECT 文
+# SQL チュートリアル - 基礎
 
 ## 導入
 
@@ -60,7 +60,7 @@ DB に対して検索を行い、データを抽出する SQL が SELECT 文で�
 CRUD（クラッド）の R（Read）に当たる操作であり、最も使用頻度が高い。
 本資料内では基本的な SELECT 文についてチュートリアルを行い、発展的な SELECT 文とその他のデータ操作については別の資料で触れる。
 
-なお、CRUD とは DB と連携するアプリケーションの持つ基本機能の頭文字を並べたもので、SQL との対応は以下の表のようになっている。
+なお、CRUD とはアプリケーションの持つ基本機能の頭文字を並べたもので、SQL との対応は以下の表のようになっている。
 |基本機能|SQL|操作|
 |---|---|---|
 |Create|INSERT|追加（生成）|
@@ -75,7 +75,7 @@ DB については任意の DB 名で別紙の phpMyAdmin の資料で説明し�
 
 ### books テーブル
 
-title_id にプライマリーキーとオートインクリメントを 設定する
+title_id にプライマリーキーとオートインクリメントを設定する
 
 | カラム名 | 意味        | 型          | NULL |
 | -------- | ----------- | ----------- | ---- |
@@ -85,11 +85,13 @@ title_id にプライマリーキーとオートインクリメントを 設定�
 | pages    | ページ数    | INT(11)     | ×    |
 | note     | 備考        | VARCHAR(64) | ○    |
 
+<div class="page">
+
 #### データ入力
 
 データ入力の手間を省くため、チュートリアル用データ追加の SQL 文を以下に示す。
 books テーブルの SQL 入力画面に移動して実行すること（画像参照）。  
-![実行場所](img/2020-03-02-164026.png)
+![実行場所](img/02/2020-03-02-164026.png)
 
 ```sql
 INSERT INTO `books` (`title_id`, `title`, `size`, `pages`, `note`) VALUES
@@ -105,9 +107,37 @@ INSERT INTO `books` (`title_id`, `title`, `size`, `pages`, `note`) VALUES
 (10, 'ダブルクロス The 3rd Edition ルールブック1', '文庫', 382, NULL),
 (11, 'モノトーンミュージアム', 'A5', 271, NULL),
 (12, 'ゆうやけこやけ', 'B5', 164, NULL),
-(13, '新クトゥルフ神話TRPG ルールブック', 'B5', 432, '第7版基本ルールブック')
-(14, 'ビーストバインドトリニティ', 'B5', 287, '第3版基本ルールブック');
+(13, '新クトゥルフ神話TRPG ルールブック', 'B5', 432, '第7版基本ルールブック'),
+(14, 'ビーストバインドトリニティ', 'B5', 287, '第3版基本ルールブック'),
+(15, 'クトゥルフ神話TRPG', 'B5', 367, '第6版基本ルールブック'),
+(16, 'ソード・ワールド2.5 ルールブックIII', '文庫', 480, NULL),
+(17, 'インセイン シナリオ集 ブラックデイズ', 'B5', 160, NULL),
+(18, 'シノビガミ シナリオ集 忍秘伝・改', 'B5', 156, NULL),
+(19, 'ソード・ワールド2.5 ルールブックII', '文庫', 480, NULL),
+(20, 'ダブルクロス The 3rd Editionルールブック2', '文庫', 382, NULL),
+(21, '魔道書大戦RPG マギカロギア 基本ルールブック', 'B5', 256, NULL),
+(22, 'クトゥルフ神話TRPG クトゥルフ2010', 'B5', 159, '第6版'),
+(23, 'ダブルクロスThe 3rd Edition上級ルールブック', 'B5', 207, NULL),
+(24, 'インセイン2 デッドループ', '新書', 256, NULL),
+(25, 'クトゥルフ神話TRPG クトゥルフと帝国', 'B5', 159, '第6版'),
+(26, '銀剣のステラナイツ 霧と桜のマルジナリア', '新書', 288, NULL),
+(27, '小さな勇者のRPG ウタカゼ', 'B5', 168, NULL),
+(28, 'フタリソウサ', '新書', 256, NULL),
+(29, 'フタリソウサ シナリオブック 怪盗からの誘惑', '新書', 256, NULL),
+(30, '歪曲の舞踏―永い後日談のネクロニカ ESPサプリメント', 'B5', 112, NULL),
+(31, 'インセイン3 インセインSCP', '新書', 256, NULL),
+(32, 'ロストロイヤル ', '新書', 240, NULL),
+(33, 'サタスペ', 'A4', 216, NULL),
+(34, 'ダンジョンズ＆ドラゴンズ プレイヤーズ・ハンドブック', 'A4', 320, '第5版'),
+(35, 'ダンジョンズ＆ドラゴンズ ダンジョン・マスターズ・ガイド', 'A4', 320, '第5版'),
+(36, 'ダンジョンズ＆ドラゴンズ モンスター・マニュアル', 'A4', 352, '第5版'),
+(37, 'ガーデンオーダー', 'B6', 283, NULL),
+(38, 'ガーデンオーダー 上級ルールブック', 'B5', 148, NULL),
+(39, 'マギカロギア シナリオ集 黄昏選書', 'B5', 176, NULL),
+(40, 'ゆうやけこやけ さぷりめんと そのいち よいやみこみち', 'B5', 164, NULL);
 ```
+
+<div class="page">
 
 ## 基本的な SELECT 文
 
@@ -128,8 +158,6 @@ SELECT ［カラム名, カラム名, ...］ FROM ［テーブル名］ ［検�
 SELECT * FROM books
 ```
 
-実行結果
-
 ### カラム名を指定して取得
 
 カラム名を指定すると、指定したカラムのみかつ指定した順番にデータが取得される。
@@ -138,7 +166,10 @@ SELECT * FROM books
 SELECT pages, title FROM books
 ```
 
-実行結果
+実行結果  
+![カラム指定](img/02/2020-03-03-160629.png)
+
+<div class="page">
 
 ## 条件付きの SELECT 文
 
@@ -152,7 +183,8 @@ WHERE 句を追加することで、検索条件を指定することができ�
 SELECT title FROM books WHERE pages < 200
 ```
 
-実行結果
+実行結果  
+![比較](img/02/2020-03-03-160757.png)
 
 基本的な比較演算子
 
@@ -164,6 +196,8 @@ SELECT title FROM books WHERE pages < 200
 | <=     | 以下       |
 | >=     | 以上       |
 | <>     | 等しくない |
+
+<div class="page">
 
 ### AND、OR
 
@@ -180,7 +214,10 @@ SELECT title FROM books WHERE pages < 200
 SELECT * FROM books WHERE pages >= 200 AND pages < 300
 ```
 
-実行結果
+実行結果  
+![AND](img/02/2020-03-03-161040.png)
+
+<div class="page">
 
 #### 判型が新書サイズあるいはページ数が 400 以上
 
@@ -188,20 +225,26 @@ SELECT * FROM books WHERE pages >= 200 AND pages < 300
 SELECT * FROM books WHERE size = '新書' OR pages >= 400
 ```
 
-実行結果
+実行結果  
+![OR](img/02/2020-03-03-161209.png)
+
+<div class="page">
 
 #### 条件 3 つ
 
-条件文には括弧も使うことができる
+条件文には括弧も使うことができる。
 
 - ページ数が 250 以上かつ 350 未満
-- あるいは判型が B5 サイズ
+- あるいは判型が A4 サイズ
 
 ```sql
-SELECT * FROM books WHERE (pages >= 250 AND pages < 350) OR size = 'B5'
+SELECT * FROM books WHERE (pages >= 250 AND pages < 350) OR size = 'A4'
 ```
 
-実行結果
+実行結果  
+![条件3つ](img/02/2020-03-03-161717.png)
+
+<div class="page">
 
 ### BETWEEN
 
@@ -213,7 +256,12 @@ SELECT * FROM books WHERE pages BETWEEN 200 AND 300
 SELECT * FROM books WHERE pages >= 200 AND pages <= 300
 ```
 
-実行結果
+実行結果  
+![between](img/02/2020-03-03-161950.png)
+
+<div class="page">
+
+### NOT BETWEEN
 
 `NOT BETWEEN`と書くことで範囲外を指定することができる。
 以下の 2 つの SQL は同じ意味である。
@@ -223,7 +271,10 @@ SELECT * FROM books WHERE pages NOT BETWEEN 250 AND 300
 SELECT * FROM books WHERE pages < 250 OR pages > 300
 ```
 
-実行結果
+実行結果  
+![notBetween](img/02/2020-03-03-162150.png)
+
+<div class="page">
 
 ### IN
 
@@ -235,7 +286,25 @@ SELECT * FROM books WHERE size IN('文庫', '新書', 'A5')
 SELECT * FROM books WHERE size = '文庫' OR size = '新書' OR size = 'A5'
 ```
 
-実行結果
+実行結果  
+![in](img/02/2020-03-03-173004.png)
+
+<div class="page">
+
+### NOT IN
+
+`NOT IN`と書くことでリスト以外のものを指定することができる。
+以下の 2 つの SQL は同じ意味である。
+
+```sql
+SELECT * FROM books WHERE size NOT IN('A5', 'A4', 'B5')
+SELECT * FROM books WHERE size <> 'A5' AND size <> 'A4' AND size <> 'B5'
+```
+
+実行結果  
+![notIn](img/02/2020-03-03-181944.png)
+
+<div class="page">
 
 ### LIKE
 
@@ -255,7 +324,10 @@ LIKE 句は文字列検索を行う。ワイルドカード文字を使うこと
 SELECT * FROM books WHERE title LIKE '%ク%'
 ```
 
-実行結果
+実行結果  
+![like1](img/02/2020-03-03-173308.png)
+
+<div class="page">
 
 #### 「ク」で終わるタイトルを検索
 
@@ -263,42 +335,43 @@ SELECT * FROM books WHERE title LIKE '%ク%'
 SELECT * FROM books WHERE title LIKE '%ク'
 ```
 
-実行結果
+実行結果  
+![like2](img/02/2020-03-03-174554.png)
 
 ### 任意の一文字から始まり、次の文字が「ク」のタイトルを検索
+
 ```sql
 SELECT * FROM books WHERE title LIKE '_ク%'
 ```
 
-実行結果
+実行結果  
+![like3](img/02/2020-03-03-174736.png)
+
+<div class="page">
 
 ### NULL
-NULLとはデータが入っていないことを表す。
-SQLでは```IS NULL```、```IS NOT NULL```を使ってNULLかどうか判定する。
+
+NULL とはデータが入っていないことを表す。
+SQL では`IS NULL`、`IS NOT NULL`を使って NULL かどうか判定する。
 
 下記に例を示す。
 
-#### noteがNULLであるデータを取得
+#### note が NULL であるデータを取得
+
 ```sql
 SELECT * FROM books WHERE note IS NULL
 ```
 
-実行結果
+実行結果  
+![isNull](img/02/2020-03-03-175436.png)
 
-#### noteがNULLではないデータを取得
+#### note が NULL ではないデータを取得
+
 ```sql
 SELECT * FROM books WHERE note IS NOT NULL
 ```
 
-実行結果
+実行結果  
+![isNotNull](img/02/2020-03-03-175633.png)
 
 ### 結果のフィルタとソート
-
-1. テーブルの結合
-   1. LEFT JOIN
-   1. RIGHT JOIN
-   1. FULL JOIN
-   1. NULL
-1. insert 文
-1. update 文
-1. delete 文
