@@ -172,7 +172,7 @@ SELECT title FROM books WHERE pages < 200
 - AND：複数の条件がいずれも成り立つ場合
 - OR：複数の条件のうちいずれかが成り立つ場合
 
-いくつか例を示す。
+下記に例を示す。
 
 #### ページ数が 200 以上かつ 300 未満
 
@@ -191,6 +191,7 @@ SELECT * FROM books WHERE size = '新書' OR pages >= 400
 実行結果
 
 #### 条件 3 つ
+
 条件文には括弧も使うことができる
 
 - ページ数が 250 以上かつ 350 未満
@@ -202,24 +203,97 @@ SELECT * FROM books WHERE (pages >= 250 AND pages < 350) OR size = 'B5'
 
 実行結果
 
-### BETWEEN、IN
+### BETWEEN
 
+BETWEEN 句 は数値を範囲で指定する。
+以下の 2 つの SQL は同じ意味である。
 
+```sql
+SELECT * FROM books WHERE pages BETWEEN 200 AND 300
+SELECT * FROM books WHERE pages >= 200 AND pages <= 300
+```
+
+実行結果
+
+`NOT BETWEEN`と書くことで範囲外を指定することができる。
+以下の 2 つの SQL は同じ意味である。
+
+```sql
+SELECT * FROM books WHERE pages NOT BETWEEN 250 AND 300
+SELECT * FROM books WHERE pages < 250 OR pages > 300
+```
+
+実行結果
+
+### IN
+
+IN 句はリストで指定した値のいずれかと合致するデータを指定する。
+以下の 2 つの SQL は同じ意味である。
+
+```sql
+SELECT * FROM books WHERE size IN('文庫', '新書', 'A5')
+SELECT * FROM books WHERE size = '文庫' OR size = '新書' OR size = 'A5'
+```
+
+実行結果
 
 ### LIKE
 
+LIKE 句は文字列検索を行う。ワイルドカード文字を使うことで曖昧検索を行うことができる。
+ワイルドカード文字は以下の 2 つである。
+
+- %：0 文字以上の任意の文字列
+- \_：任意の 1 文字
+
+ワイルドカード文字にあたる文字を検索したい場合は、「\\%」「\\\_」のように「\（バックスラッシュ。日本語入力では￥）」を前に付けて記述する。
+
+下記に例を示す。
+
+#### 「ク」を含むタイトルを検索
+
+```sql
+SELECT * FROM books WHERE title LIKE '%ク%'
+```
+
+実行結果
+
+#### 「ク」で終わるタイトルを検索
+
+```sql
+SELECT * FROM books WHERE title LIKE '%ク'
+```
+
+実行結果
+
+### 任意の一文字から始まり、次の文字が「ク」のタイトルを検索
+```sql
+SELECT * FROM books WHERE title LIKE '_ク%'
+```
+
+実行結果
+
+### NULL
+NULLとはデータが入っていないことを表す。
+SQLでは```IS NULL```、```IS NOT NULL```を使ってNULLかどうか判定する。
+
+下記に例を示す。
+
+#### noteがNULLであるデータを取得
+```sql
+SELECT * FROM books WHERE note IS NULL
+```
+
+実行結果
+
+#### noteがNULLではないデータを取得
+```sql
+SELECT * FROM books WHERE note IS NOT NULL
+```
+
+実行結果
+
 ### 結果のフィルタとソート
 
-1. select 文
-   1. カラム指定して取得
-   1. すべての情報を取得
-   1. WHERE
-   1. 比較演算子
-   1. AND、OR
-   1. BETWEEN、IN
-   1. LIKE
-   1. 結果のフィルタ・ソート
-1. select 文振り返り問題
 1. テーブルの結合
    1. LEFT JOIN
    1. RIGHT JOIN
