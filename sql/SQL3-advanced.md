@@ -48,6 +48,7 @@
 </style>
 
 # SQL チュートリアル - 発展
+<span style="font-family:Alial">\\</span>
 
 ## 導入
 1. テーブルの結合

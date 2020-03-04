@@ -51,31 +51,34 @@
 
 ## 導入
 
-SQL とは Structured Query Language の略で、データベースの操作を行うための言語である。
-データベースごとに独自の拡張を加えた SQL が使われているが、基本的な SQL は共通している。本研修では MySQL を使用するが、他のデータベースでも利用できる基本的な SQL について解説していく。
+SQL とは Structured Query Language の略で、データベースの操作を行うための言語である。  
+データベースごとに独自の拡張を加えた SQL が使われているが、基本的な SQL は共通している。本研修では MySQL を使用するが、他のデータベースでも利用できるような基本的な SQL について解説していく。
 
 ### SELECT 文
 
-DB に対して検索を行い、データを抽出する SQL が SELECT 文である。
-CRUD（クラッド）の R（Read）に当たる操作であり、最も使用頻度が高い。
-本資料内では基本的な SELECT 文についてチュートリアルを行い、発展的な SELECT 文とその他のデータ操作については別の資料で触れる。
-
+DB に対して検索を行い、データを抽出する SQL が SELECT 文である。  
+CRUD（クラッド）の R（Read）に当たる操作であり、最も使用頻度が高い。  
+本資料内では基本的な SELECT 文についてチュートリアルを行い、発展的な SELECT 文とその他のデータ操作については別の資料で触れる。  
+<br>
 なお、CRUD とはアプリケーションの持つ基本機能の頭文字を並べたもので、SQL との対応は以下の表のようになっている。
-|基本機能|SQL|操作|
-|---|---|---|
-|Create|INSERT|追加（生成）|
-|Read|SELECT|検索（読取）|
-|Update|UPDATE|更新|
-|Delete|DELETE|削除|
+
+| 基本機能 | SQL    | 操作         |
+| -------- | ------ | ------------ |
+| Create   | INSERT | 追加（生成） |
+| Read     | SELECT | 検索（読取） |
+| Update   | UPDATE | 更新         |
+| Delete   | DELETE | 削除         |
+
+<div class="page">
 
 ## チュートリアル用のテーブル作成
 
-以下のテーブルを作成する。以降のチュートリアルでは特に記述がない限りこのテーブルに対して SQL を発行していく。
+以下のテーブルを作成する。以降のチュートリアルでは特に記述がない限りこのテーブルに対して SQL を発行していく。  
 DB については任意の DB 名で別紙の phpMyAdmin の資料で説明した通りに作成していれば問題ない。
 
 ### books テーブル
 
-title_id にプライマリーキーとオートインクリメントを設定する
+title_id にプライマリーキーとオートインクリメントを設定する。
 
 | カラム名 | 意味        | 型          | NULL |
 | -------- | ----------- | ----------- | ---- |
@@ -89,7 +92,7 @@ title_id にプライマリーキーとオートインクリメントを設定�
 
 #### データ入力
 
-データ入力の手間を省くため、チュートリアル用データ追加の SQL 文を以下に示す。
+データ入力の手間を省くため、チュートリアル用データ追加の SQL 文を以下に示す。  
 books テーブルの SQL 入力画面に移動して実行すること（画像参照）。  
 ![実行場所](img/02/2020-03-02-164026.png)
 
@@ -144,14 +147,14 @@ INSERT INTO `books` (`title_id`, `title`, `size`, `pages`, `note`) VALUES
 ### 書式
 
 ```sql
-SELECT ［カラム名, カラム名, ...］ FROM ［テーブル名］ ［検索条件］
+SELECT 〈カラム名, カラム名, ...〉 FROM 〈テーブル名〉 〈検索条件〉
 ```
 
 上記の括弧内を適宜書き換えていく。
 
 ### 全件取得
 
-カラム名を「\*（アスタリスク）」にすると、すべてのカラムが指定される。
+カラム名を「\*（アスタリスク）」にすると、すべてのカラムが指定される。  
 下記 SQL を実行すると books テーブルから全件取得する。
 
 ```sql
@@ -206,7 +209,7 @@ SELECT title FROM books WHERE pages < 200
 - AND：複数の条件がいずれも成り立つ場合
 - OR：複数の条件のうちいずれかが成り立つ場合
 
-下記に例を示す。
+以下に例を示す。
 
 #### ページ数が 200 以上かつ 300 未満
 
@@ -248,7 +251,7 @@ SELECT * FROM books WHERE (pages >= 250 AND pages < 350) OR size = 'A4'
 
 ### BETWEEN
 
-BETWEEN 句 は数値を範囲で指定する。
+BETWEEN 句 は数値を範囲で指定する。  
 以下の 2 つの SQL は同じ意味である。
 
 ```sql
@@ -263,7 +266,7 @@ SELECT * FROM books WHERE pages >= 200 AND pages <= 300
 
 ### NOT BETWEEN
 
-`NOT BETWEEN`と書くことで範囲外を指定することができる。
+NOT BETWEEN と書くことで範囲外を指定することができる。  
 以下の 2 つの SQL は同じ意味である。
 
 ```sql
@@ -278,7 +281,7 @@ SELECT * FROM books WHERE pages < 250 OR pages > 300
 
 ### IN
 
-IN 句はリストで指定した値のいずれかと合致するデータを指定する。
+IN 句はリストで指定した値のいずれかと合致するデータを指定する。  
 以下の 2 つの SQL は同じ意味である。
 
 ```sql
@@ -293,7 +296,7 @@ SELECT * FROM books WHERE size = '文庫' OR size = '新書' OR size = 'A5'
 
 ### NOT IN
 
-`NOT IN`と書くことでリスト以外のものを指定することができる。
+`NOT IN`と書くことでリスト以外のものを指定することができる。  
 以下の 2 つの SQL は同じ意味である。
 
 ```sql
@@ -308,15 +311,16 @@ SELECT * FROM books WHERE size <> 'A5' AND size <> 'A4' AND size <> 'B5'
 
 ### LIKE
 
-LIKE 句は文字列検索を行う。ワイルドカード文字を使うことで曖昧検索を行うことができる。
+LIKE 句は文字列検索を行う。ワイルドカード文字を使うことで曖昧検索を行うことができる。  
 ワイルドカード文字は以下の 2 つである。
 
 - %：0 文字以上の任意の文字列
 - \_：任意の 1 文字
 
-ワイルドカード文字にあたる文字を検索したい場合は、「\\%」「\\\_」のように「\（バックスラッシュ。日本語入力では￥）」を前に付けて記述する。
+ワイルドカード文字にあたる文字を検索したい場合は、「<span style="font-family:Consolas">\\</span>%」「<span style="font-family:Consolas">\\</span>\_」のように「<span style="font-family:Consolas">\\</span>（バックスラッシュ）」を前に付けて記述する。  
+なお、半角のバックスラッシュはフォントによっては半角の円マーク（\）で表示される（主に日本語フォント）。パスの表記などで今後も見かけることになると思われるため、覚えておくとよい。
 
-下記に例を示す。
+以下に例を示す。
 
 #### 「ク」を含むタイトルを検索
 
@@ -338,7 +342,7 @@ SELECT * FROM books WHERE title LIKE '%ク'
 実行結果  
 ![like2](img/02/2020-03-03-174554.png)
 
-### 任意の一文字から始まり、次の文字が「ク」のタイトルを検索
+#### 任意の一文字から始まり、次の文字が「ク」のタイトルを検索
 
 ```sql
 SELECT * FROM books WHERE title LIKE '_ク%'
@@ -351,10 +355,10 @@ SELECT * FROM books WHERE title LIKE '_ク%'
 
 ### NULL
 
-NULL とはデータが入っていないことを表す。
-SQL では`IS NULL`、`IS NOT NULL`を使って NULL かどうか判定する。
-
-下記に例を示す。
+NULL とはデータが入っていないことを表す。  
+SQL では IS NULL、IS NOT NULL を使って NULL かどうか判定する。  
+<br>
+以下に例を示す。
 
 #### note が NULL であるデータを取得
 
@@ -365,6 +369,8 @@ SELECT * FROM books WHERE note IS NULL
 実行結果  
 ![isNull](img/02/2020-03-03-175436.png)
 
+<div class="page">
+
 #### note が NULL ではないデータを取得
 
 ```sql
@@ -374,4 +380,103 @@ SELECT * FROM books WHERE note IS NOT NULL
 実行結果  
 ![isNotNull](img/02/2020-03-03-175633.png)
 
-### 結果のフィルタとソート
+<div class="page">
+
+## 抽出結果のソート・フィルタ
+
+### ORDER BY
+
+ORDER BY 句は結果のソートを行う。  
+記述する場合は WHERE 句の後ろに付ける
+
+```sql
+SELECT〈カラム名...〉FROM〈テーブル名〉WHERE〈条件〉ORDER BY〈カラム名〉〈順序〉
+```
+
+並べ替え順序について
+
+- ASC：昇順
+- DESC：降順
+
+省略した場合は ASC となる。  
+以下に例を示す。
+
+#### ページ数昇順で並べ替える
+
+```sql
+SELECT * FROM books ORDER BY pages ASC
+```
+
+実行結果  
+![ASC](img/02/2020-03-04-121625.png)
+
+<div class="page">
+
+#### 「ページ数 200 ページ以下」の結果を ID 降順で並べ替える
+
+```sql
+SELECT * FROM books WHERE pages <= 200 ORDER BY title_id DESC
+```
+
+実行結果  
+![DESC](img/02/2020-03-04-122014.png)
+
+<div class="page">
+
+### LIMIT
+
+LIMIT 句を使うと取得するデータの行数を制限することができる。
+
+```sql
+SELECT 〈カラム名...〉 FROM 〈テーブル名〉 LIMIT ［オフセット,］ 〈行数〉
+```
+
+オフセットを設定することで、「オフセットで指定した値+1 番目」のデータから取得を開始する。省略した場合は 1 番目のデータから取得が開始される。  
+<br>
+以下に例を示す。
+
+#### 最大 5 つのデータを取得する
+
+```sql
+SELECT * FROM books LIMIT 5
+```
+
+実行結果  
+![limit](img/02/2020-03-04-150154.png)
+
+<div class="page">
+
+#### 4 番目のデータから最大 5 つのデータを取得する
+
+```sql
+SELECT * FROM books LIMIT 4, 5
+```
+
+実行結果  
+![limit2](img/02/2020-03-04-150338.png)
+
+#### ページ数降順で並べ替え、2 番目から最大 3 つのデータを取得する
+
+```sql
+SELECT * FROM books ORDER BY pages desc LIMIT 2, 3
+```
+
+実行結果  
+![limit3](img/02/2020-03-04-150632.png)
+
+<div class="page">
+
+### DISTINCT
+
+DISTINCT を利用することで、重複するデータを除外することができる。  
+以下に例を示す。
+
+```sql
+SELECT DISTINCT size FROM books
+```
+
+実行結果  
+![distinct](img/02/2020-03-04-181027.png)
+
+DISTINCT を設定しない場合の結果  
+![distinctしない場合](img/02/2020-03-04-181305.png)
