@@ -82,10 +82,10 @@ title_id にプライマリーキーとオートインクリメントを設定�
 
 | カラム名 | 意味        | 型          | NULL |
 | -------- | ----------- | ----------- | ---- |
-| title_id | タイトル ID | INT(11)     | ×    |
+| title_id | タイトル ID | INT         | ×    |
 | title    | タイトル    | VARCHAR(32) | ×    |
 | size     | 判型        | VARCHAR(4)  | ×    |
-| pages    | ページ数    | INT(11)     | ×    |
+| pages    | ページ数    | INT         | ×    |
 | note     | 備考        | VARCHAR(64) | ○    |
 
 <div class="page">
