@@ -221,24 +221,72 @@ SELECT AVG(pages) FROM books
 SELECT MAX(pages), MIN(pages) FROM books
 ```
 
+## GROUP BY
+
+GROUP BY 句でカラム名を指定すると、指定したカラムの値が同じデータをグループとしてまとめて扱う。  
+グループ化した場合、抽出される単位もグループ単位となる。
+
+以下に例を示す。
+
+#### 判型でグループ化
+
+```sql
+SELECT * FROM books GROUP BY size
+```
+
+実行結果  
+![groupBy](img/03/2020-03-06-175524.png)
+それぞれの判型で title_id が最も小さいフィールドのみ抽出されている。  
+通常はこの例のように全カラムの抽出はせず、カテゴリごとに集計したい場合などに GROUP BY 句を使うことが多い。
+
+#### 判型ごとの冊数とページ数平均を表示
+
+```sql
+SELECT size, COUNT(size), AVG(pages) FROM books GROUP BY size
+```
+
+実行結果  
+![groupBy2](img/03/2020-03-06-182116.png)
+
 ## AS
-AS句を使うことでカラムやテーブルに別名を付けることができる。  
+
+AS 句を使うことでカラムやテーブルに別名を付けることができる。  
 <br>
-基本形
+以下のように書いて別名を付けられる。
+
 ```sql
 〈元の名前〉 AS 〈別名〉
 ```
 
-以下に例を示す。  
-### テーブルに別名を付ける
+AS 句は省略できる。その場合、元の名前の後に空白を入れ、それに続けて別名を書くことになる。
+<br>
+以下に例を示す。
 
+#### テーブルに別名を付ける
 
+```sql
+SELECT e.name, d.name FROM employees e
+INNER JOIN depts d ON e.dept_id = d.dept_id
+```
 
-## GROUP BY
+実行結果  
+![as](img/03/2020-03-06-182500.png)
 
-GROUP BY 句を使うことで、
+#### 判型ごとの冊数とページ数平均を表示（カラム名設定）
+
+```sql
+SELECT size AS '判型', COUNT(size) AS '冊数', AVG(pages) AS 'ページ数の平均'
+FROM books GROUP BY size
+```
+
+実行結果  
+![as2](img/03/2020-03-06-182637.png)
+
 
 ## HAVING
+
+<!-- whereとの違いが処理タイミング→group byの前後　なのでgroup byより後に説明
+集計関数専用というより、抽出条件指定のタイミング違いというポジションなので集計関数のすぐ下でなくてもいいかな -->
 
 ## サブクエリ
 
