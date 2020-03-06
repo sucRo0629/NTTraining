@@ -91,8 +91,6 @@ id にプライマリキーとオートインクリメントを設定する。
 | Charlie | 1       |
 | Delta   | _NULL_  |
 
-## AS
-
 ## テーブルの結合
 
 複数のテーブルを結合し、結合後のテーブルから SELECT 文でデータを抽出することができる。結合方法には大きく分けて内部結合と外部結合がある。  
@@ -115,6 +113,7 @@ INNER JOIN 句は「INNER」 を省略して「JOIN」とだけ書くことも�
 SELECT 〈カラム名...〉 FROM 〈テーブル名1〉 [INNER] JOIN 〈テーブル名2〉
 ON 〈テーブル名1〉.〈指定カラム名1〉 = 〈テーブル名2〉.〈指定カラム名2〉
 ```
+
 指定するカラム名は分かりやすよう同じ名前にしていることがほとんどである。  
 <br>
 以下に例を示す。
@@ -126,7 +125,7 @@ ON employees.dept_id = depts.dept_id
 
 この SQL は、employees テーブルのカラムに対し、「employees（社員） テーブルの dept_id と depts（部署） テーブルの dept_id が同じ depts テーブルのレコードを結合する」という意味である。  
 <br>
-以下にそれぞれのテーブルと実行結果を示す。  
+以下にそれぞれのテーブルと実行結果を示す。
 
 | employees                                  | depts                                  | 実行結果                                   |
 | ------------------------------------------ | -------------------------------------- | ------------------------------------------ |
@@ -136,7 +135,7 @@ ON employees.dept_id = depts.dept_id
 
 #### WHERE 句を使う方法
 
-INNER JOIN 句を使わず、以下のようにWHERE 句を使って内部結合を行うこともできる。
+INNER JOIN 句を使わず、以下のように WHERE 句を使って内部結合を行うこともできる。
 
 ```sql
 SELECT * FROM employees, depts
@@ -144,24 +143,106 @@ WHERE employees.dept_id = depts.depts_id
 ```
 
 ### 外部結合
+
 外部結合の場合、内部結合と違い、どちらかのテーブルにしか存在しないレコードも取得する。  
-外部結合には以下の3つがある。
+外部結合には以下の 2 つがある。
 
 - LEFT OUTER JOIN：左側のテーブルの内容を全て抽出する
 - RIGHT OUTER JOIN：右側のテーブルの内容を全て抽出する
-- FULL OUTER JOIN：両方のテーブルの内容を全て抽出する
 
-左側、右側というのはJOIN句を中心として見たSQL文上の左右を意味する。  
+左側、右側というのは JOIN 句を中心として見た SQL 文上の左右を意味する。  
 なお、「OUTER」は省略できる。
 
+以下に例を示す。
 
-## サブクエリ
+#### LEFT JOIN
+
+```sql
+SELECT * FROM employees LEFT JOIN depts
+ON employees.dept_id = depts.dept_id
+```
+
+実行結果  
+![leftJoin](img/03/2020-03-06-100437.png)
+
+「Delta」が抽出されており、「技術部」は抽出されていない。
+
+#### RIGHT JOIN
+
+```sql
+SELECT * FROM employees RIGHT JOIN depts
+ON employees.dept_id = depts.dept_id
+```
+
+実行結果  
+![rightJoin](img/03/2020-03-06-100904.png)
+
+「技術部」が抽出されており、「Delta」は抽出されていない。
+
+### USING
+
+結合を行う際、結合条件として指定するカラム名がそれぞれのテーブルで同じ場合、USING 句を使って書くこともできる。  
+以下の 2 つの SQL は同じ意味である。
+
+```sql
+SELECT * FROM employees JOIN depts USING(dept_id)
+SELECT * FROM employees JOIN depts ON employees.dept_id = depts.dept_id
+```
 
 ## 集計関数
 
+集計関数を使うことで演算を行うことができる。  
+<br>
+集計関数一覧  
+|関数名|機能|
+|---|---|
+|MAX|最大値|
+|MIN|最小値|
+|SUM|合計|
+|AVG|平均値|
+|COUNT|個数のカウント|
+
+「`集計関数（カラム名）`」のように書いて使用する。  
+<br>
+以下に例を示す。
+
+#### ページ数（pages）の平均を表示する
+
+```sql
+SELECT AVG(pages) FROM books
+```
+
+実行結果  
+![avg](img/03/2020-03-06-143701.png)
+
+#### ページ数の最大値と最小値を表示する
+
+```sql
+SELECT MAX(pages), MIN(pages) FROM books
+```
+
+## AS
+AS句を使うことでカラムやテーブルに別名を付けることができる。  
+<br>
+基本形
+```sql
+〈元の名前〉 AS 〈別名〉
+```
+
+以下に例を示す。  
+### テーブルに別名を付ける
+
+
+
 ## GROUP BY
 
+GROUP BY 句を使うことで、
+
 ## HAVING
+
+## サブクエリ
+
+サブクエリとは、あるクエリの中に含まれるもう一つのクエリである。
 
 ## insert 文
 
