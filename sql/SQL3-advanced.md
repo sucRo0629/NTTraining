@@ -53,7 +53,7 @@
 
 基礎のチュートリアルで作成した books テーブルはこのチュートリアルでも引き続き使用する。
 
-テーブル結合の説明用にシンプルなテーブルを 2 つ用意する。
+新たにシンプルなテーブルを 2 つ用意する。
 
 ### depts テーブル
 
@@ -250,15 +250,18 @@ SELECT size, COUNT(size), AVG(pages) FROM books GROUP BY size
 
 ## AS
 
-AS 句を使うことでカラムやテーブルに別名を付けることができる。  
-<br>
-以下のように書いて別名を付けられる。
+AS 句を使うことでカラムやテーブルに別名を付けることができる。
 
 ```sql
 〈元の名前〉 AS 〈別名〉
 ```
 
-AS 句は省略できる。その場合、元の名前の後に空白を入れ、それに続けて別名を書くことになる。
+AS 句は省略して以下のように書ける。
+
+```sql
+〈元の名前〉〈空白〉〈別名〉
+```
+
 <br>
 以下に例を示す。
 
@@ -282,15 +285,61 @@ FROM books GROUP BY size
 実行結果  
 ![as2](img/03/2020-03-06-182637.png)
 
-
 ## HAVING
 
-<!-- whereとの違いが処理タイミング→group byの前後　なのでgroup byより後に説明
-集計関数専用というより、抽出条件指定のタイミング違いというポジションなので集計関数のすぐ下でなくてもいいかな -->
+HAVING 句も WHERE 句と同じく検索条件を指定する SQL である。
+WHERE 句との違いは評価順序が GROUP BY 句よりも先か後かという点である。
+以下に SELECT 文における評価順序を示す。
+
+1. FROM
+1. ON
+1. JOIN
+1. **WHERE**
+1. GROUP BY
+1. **HAVING**
+1. SELECT
+1. DISTINCT
+1. ORDER BY
+1. LIMIT
+
+- WHERE:グループ化される前に条件を適応
+- HAVING:グループ化された後に条件を適応
+
+HAVING句の場合、集計関数と併用されることが多い。
+以下に例を示す。
+
+#### 5冊以上の判型を抽出
+```sql
+SELECT size, COUNT(size) FROM books GROUP BY size HAVING COUNT(size) >= 5
+```
+
+実行結果  
+![having](img/03/2020-03-09-130327.png)
 
 ## サブクエリ
 
 サブクエリとは、あるクエリの中に含まれるもう一つのクエリである。
+何度かクエリを実行しないと得られない結果を一度で得たいときに使われる。
+<br>
+サブクエリで抽出した結果をメインのクエリの検索条件とする例を以下に示す。
+```sql
+SELECT name FROM employees
+WHERE dept_id = (SELECT dept_id FROM depts where name like '営業%')
+```
+
+実行結果  
+![subQuery](img/03/2020-03-09-151445.png)
+
+「営業」から始まる部署に所属する社員が抽出される。
+外側のWHEREの条件が「=」のため、サブクエリの結果が2行以上の場合はエラーになる。
+以上以下など、条件が範囲をとる場合はエラーは出ない。
+
+なお、上記の例は結合（JOIN句）を使って書くこともできる。
+```sql
+SELECT employees.name FROM employees JOIN depts
+ON employees.dept_id = depts.dept_id
+WHERE depts.name like '営業%'
+```
 
 ## insert 文
 
