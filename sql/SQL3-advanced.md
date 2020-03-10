@@ -51,9 +51,8 @@
 
 ## チュートリアル用のテーブル作成
 
-基礎のチュートリアルで作成した books テーブルはこのチュートリアルでも引き続き使用する。
-
-新たにシンプルなテーブルを 2 つ用意する。
+新たにテーブルを 2 つ用意する。  
+なお、基礎のチュートリアルで作成した books テーブルはこのチュートリアルでも引き続き使用する。
 
 ### depts テーブル
 
@@ -91,6 +90,8 @@ id にプライマリキーとオートインクリメントを設定する。
 | Charlie | 1       |
 | Delta   | _NULL_  |
 
+<div class="page">
+
 ## テーブルの結合
 
 複数のテーブルを結合し、結合後のテーブルから SELECT 文でデータを抽出することができる。結合方法には大きく分けて内部結合と外部結合がある。  
@@ -104,7 +105,7 @@ id にプライマリキーとオートインクリメントを設定する。
 ### 内部結合
 
 INNER JOIN 句を使うと内部結合が行える。  
-内部結合は指定したカラムに対して、同じデータを持つレコード同士を結合させる。指定したカラムのデータがどちらかにしかない（同じデータがない）レコードは抽出されない。
+内部結合は指定したカラムに対して、同じデータを持つレコード同士を結合させる。指定したカラムのデータがどちらかにしかない（同じデータがない）レコードは抽出されない。  
 INNER JOIN 句は「INNER」 を省略して「JOIN」とだけ書くこともできる。
 
 #### 書式
@@ -114,8 +115,10 @@ SELECT 〈カラム名...〉 FROM 〈テーブル名1〉 [INNER] JOIN 〈テー�
 ON 〈テーブル名1〉.〈指定カラム名1〉 = 〈テーブル名2〉.〈指定カラム名2〉
 ```
 
-指定するカラム名は分かりやすよう同じ名前にしていることがほとんどである。  
-<br>
+指定するカラム名はどちらのテーブルでも同じ名前にしておくと分かりやすい。
+
+<div class="page">
+
 以下に例を示す。
 
 ```sql
@@ -123,7 +126,7 @@ SELECT * FROM employees INNER JOIN depts
 ON employees.dept_id = depts.dept_id
 ```
 
-この SQL は、employees テーブルのカラムに対し、「employees（社員） テーブルの dept_id と depts（部署） テーブルの dept_id が同じ depts テーブルのレコードを結合する」という意味である。  
+この SQL は、employees テーブルに対し、「employees（社員） テーブルの dept_id と dept_id が同じ depts（部署） テーブルのレコードを結合する」という意味である。  
 <br>
 以下にそれぞれのテーブルと実行結果を示す。
 
@@ -141,6 +144,8 @@ INNER JOIN 句を使わず、以下のように WHERE 句を使って内部結�
 SELECT * FROM employees, depts
 WHERE employees.dept_id = depts.depts_id
 ```
+
+<div class="page">
 
 ### 外部結合
 
@@ -178,6 +183,8 @@ ON employees.dept_id = depts.dept_id
 ![rightJoin](img/03/2020-03-06-100904.png)
 
 「技術部」が抽出されており、「Delta」は抽出されていない。
+
+<div class="page">
 
 ### USING
 
@@ -221,6 +228,8 @@ SELECT AVG(pages) FROM books
 SELECT MAX(pages), MIN(pages) FROM books
 ```
 
+<div class="page">
+
 ## GROUP BY
 
 GROUP BY 句でカラム名を指定すると、指定したカラムの値が同じデータをグループとしてまとめて扱う。  
@@ -228,7 +237,7 @@ GROUP BY 句でカラム名を指定すると、指定したカラムの値が�
 
 以下に例を示す。
 
-#### 判型でグループ化
+#### 判型（size）でグループ化
 
 ```sql
 SELECT * FROM books GROUP BY size
@@ -237,7 +246,7 @@ SELECT * FROM books GROUP BY size
 実行結果  
 ![groupBy](img/03/2020-03-06-175524.png)
 それぞれの判型で title_id が最も小さいフィールドのみ抽出されている。  
-通常はこの例のように全カラムの抽出はせず、カテゴリごとに集計したい場合などに GROUP BY 句を使うことが多い。
+通常はこの例のように全カラムの抽出は行わず、以下のようにカテゴリごとに何らかの集計を行いたい場合に GROUP BY 句を使うことが多い。
 
 #### 判型ごとの冊数とページ数平均を表示
 
@@ -247,6 +256,8 @@ SELECT size, COUNT(size), AVG(pages) FROM books GROUP BY size
 
 実行結果  
 ![groupBy2](img/03/2020-03-06-182116.png)
+
+<div class="page">
 
 ## AS
 
@@ -267,9 +278,11 @@ AS 句は省略して以下のように書ける。
 
 #### テーブルに別名を付ける
 
+depts テーブルに d、employee テーブルに e という別名を付けている。
+
 ```sql
-SELECT e.name, d.name FROM employees e
-INNER JOIN depts d ON e.dept_id = d.dept_id
+SELECT e.name, d.name FROM employees AS e
+INNER JOIN depts AS d ON e.dept_id = d.dept_id
 ```
 
 実行結果  
@@ -278,18 +291,20 @@ INNER JOIN depts d ON e.dept_id = d.dept_id
 #### 判型ごとの冊数とページ数平均を表示（カラム名設定）
 
 ```sql
-SELECT size AS '判型', COUNT(size) AS '冊数', AVG(pages) AS 'ページ数の平均'
+SELECT size '判型', COUNT(size) '冊数', AVG(pages) 'ページ数の平均'
 FROM books GROUP BY size
 ```
 
 実行結果  
 ![as2](img/03/2020-03-06-182637.png)
 
+<div class="page">
+
 ## HAVING
 
-HAVING 句も WHERE 句と同じく検索条件を指定する SQL である。
-WHERE 句との違いは評価順序が GROUP BY 句よりも先か後かという点である。
-以下に SELECT 文における評価順序を示す。
+HAVING 句は WHERE 句と同じく検索条件を指定する SQL である。  
+WHERE 句との違いは SQL 文中での評価順序である。  
+以下に SELECT 文における各句の評価順序を示す。
 
 1. FROM
 1. ON
@@ -302,13 +317,16 @@ WHERE 句との違いは評価順序が GROUP BY 句よりも先か後かとい�
 1. ORDER BY
 1. LIMIT
 
+GROUP BY 句の前か後かという点で異なる。
+
 - WHERE:グループ化される前に条件を適応
 - HAVING:グループ化された後に条件を適応
 
-HAVING句の場合、集計関数と併用されることが多い。
+HAVING 句の場合、集計関数と併用されることが多い。
 以下に例を示す。
 
-#### 5冊以上の判型を抽出
+#### 5 冊以上登録されている判型を抽出
+
 ```sql
 SELECT size, COUNT(size) FROM books GROUP BY size HAVING COUNT(size) >= 5
 ```
@@ -316,12 +334,15 @@ SELECT size, COUNT(size) FROM books GROUP BY size HAVING COUNT(size) >= 5
 実行結果  
 ![having](img/03/2020-03-09-130327.png)
 
+<div class="page">
+
 ## サブクエリ
 
-サブクエリとは、あるクエリの中に含まれるもう一つのクエリである。
+サブクエリとは、あるクエリの中に含まれるもう一つのクエリである。  
 何度かクエリを実行しないと得られない結果を一度で得たいときに使われる。
 <br>
 サブクエリで抽出した結果をメインのクエリの検索条件とする例を以下に示す。
+
 ```sql
 SELECT name FROM employees
 WHERE dept_id = (SELECT dept_id FROM depts where name like '営業%')
@@ -330,19 +351,68 @@ WHERE dept_id = (SELECT dept_id FROM depts where name like '営業%')
 実行結果  
 ![subQuery](img/03/2020-03-09-151445.png)
 
-「営業」から始まる部署に所属する社員が抽出される。
-外側のWHEREの条件が「=」のため、サブクエリの結果が2行以上の場合はエラーになる。
-以上以下など、条件が範囲をとる場合はエラーは出ない。
+「営業」から始まる部署に所属する社員が抽出される。  
+外側の WHERE の条件が「=」のため、サブクエリの結果が 2 行以上の場合はエラーになる。  
+以上以下など、条件が範囲をとる場合はエラーにはならない。  
+<br>
+なお、上記の例は結合（JOIN 句）を使って書くこともできる。
 
-なお、上記の例は結合（JOIN句）を使って書くこともできる。
 ```sql
 SELECT employees.name FROM employees JOIN depts
 ON employees.dept_id = depts.dept_id
 WHERE depts.name like '営業%'
 ```
 
-## insert 文
+<div class="page">
 
-## update 文
+## INSERT 文
 
-## delete 文
+DB に対して新たなレコードを挿入（追加）する SQL が INSERT 文である。  
+基本的な構文は以下の通り（長くなったため改行）。  
+値を NULL や空文字にした場合はそのカラムのデフォルト値が入力される。
+
+```sql
+INSERT INTO 〈テーブル名〉 (〈カラム名〉,〈カラム名〉...〉)
+VALUES (〈値〉,〈値〉...)
+```
+
+例として books テーブルに追加するクエリを以下に示す。  
+`title_id`にはオートインクリメントを設定しているため、NULL にしておけば自動的に連番が割振られる。
+
+```sql
+INSERT INTO books (title_id, title, size, pages, note)
+VALUES (NULL, '歯車の塔の探空士', 'B5', 68, '同人')
+```
+
+## UPDATE 文
+
+DB に保存されているレコードを更新する SQL が UPDATE 文である。  
+基本的な構文は以下の通り（長くなったため改行）。
+
+```sql
+UPDATE 〈テーブル名〉 SET 〈カラム名〉=〈値〉, 〈カラム名〉=〈値〉...
+WHERE 〈条件〉
+```
+
+例として employees テーブルの Delta（id=4）の部署 ID（dept_id）を技術部（dept_id=3）に更新する。
+
+```sql
+UPDATE employees SET dept_id = 3 WHERE id = 4
+```
+
+<div class="page">
+
+## DELETE 文
+
+DB に保存されているレコードを削除する SQL が DELETE 文である。  
+基本的な構文は以下の通り。
+
+```sql
+DELETE FROM 〈テーブル名〉 WHERE 〈条件〉
+```
+
+ID で指定する方法は UPDATE 文で例示した方法と同様にできるため、books テーブルから判型（size）が B5 サイズのレコードを削除する例を以下に示す。
+
+```sql
+DELETE FROM books WHERE size = 'B5'
+```
