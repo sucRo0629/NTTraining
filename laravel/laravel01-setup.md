@@ -424,13 +424,13 @@ jquery/1.11.3/jquery.min.js"></script>
 <!-- input type="text" string -->
 <div class="form-group">
   <label>名前</label>
-<input type="text" name="loginid" class="form-control">
+<input type="text" name="name" class="form-control">
 </div>
 
 <!-- input type="text" int -->
 <div class="form-group" >
   <label>パスワード</label>
-  <input type="password" name="loginpassword" class="form-control">
+  <input type="password" name="password" class="form-control">
 </div>
 
 <!-- radio -->
