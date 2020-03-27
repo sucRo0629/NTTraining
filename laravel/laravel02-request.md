@@ -345,17 +345,17 @@ postIndex()の編集
 ```diff
 （略）
  <tr>
-   <td>id</td>
+   <td>名前</td>
    <td>
 -    {{-- ここにpostIndex()から渡されたデータが入る --}}
-+    {{ $input['loginid'] }}
++    {{ $input['name'] }}
    </td>
  </tr>
  <tr>
    <td>パスワード</td>
    <td>
 -    {{-- ここにpostIndex()から渡されたデータが入る --}}
-+    {{ $input['loginpassword'] }}
++    {{ $input['password'] }}
    </td>
  </tr>
  <tr>
@@ -427,15 +427,15 @@ class LoginController extends Controller
 
 <table class="table table-striped">
   <tr>
-    <td>id</td>
+    <td>名前</td>
     <td>
-      {{ $input['loginid'] }}
+      {{ $input['name'] }}
     </td>
   </tr>
   <tr>
     <td>パスワード</td>
     <td>
-      {{ $input['loginpassword'] }}
+      {{ $input['password'] }}
     </td>
   </tr>
   <tr>
