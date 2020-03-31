@@ -106,7 +106,7 @@ Laravel で DB と接続するためには、`config/database.php`と`.env`、2 
 
 【.env】
 
-```diff
+```
   DB_CONNECTION=mysql
   DB_HOST=127.0.0.1
   DB_PORT=3306
@@ -515,3 +515,73 @@ use を使うことでパスのエイリアス（別名）を定義すること�
 ```
 
 use を使用することでシンプルな記述でクラスを呼べるようになった。
+
+<div class="page"></div>
+
+## 資料最終段階のソースコード
+
+
+### 【config/database.php】MySQL設定部分
+
+```php
+'mysql' => [
+  'driver' => 'mysql',
+  'host' => env('DB_HOST', '127.0.0.1'),
+  'port' => env('DB_PORT', '3306'),
+  'database' => env('DB_DATABASE', 'laravel_study'),
+  'username' => env('DB_USERNAME', 'root'),
+  'password' => env('DB_PASSWORD', ''),
+  'unix_socket' => env('DB_SOCKET', ''),
+  'charset' => 'utf8mb4',
+  'collation' => 'utf8mb4_unicode_ci',
+  'prefix' => '',
+  'prefix_indexes' => true,
+  'strict' => true,
+  'engine' => null,
+],
+```
+
+### 【.env】MySQL設定部分
+
+```php
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=laravel_study
+  DB_USERNAME=root
+  DB_PASSWORD=
+```
+<div class="page"></div>
+
+### 【app\Http\Controllers\LoginController.php】
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+
+class LoginController extends Controller
+{
+  function getIndex()
+  {
+    // $test = User::all();
+    // dump($test);
+    // view ファイルを返却
+    return view('login/login');
+  }
+
+  function postIndex(Request $request)
+  {
+    // リクエストパラメータを配列として全件取得
+    $input = $request->all();
+
+    // 好きな方法でViewに値を渡す
+    // return view('login/result', ['input' => $input]);
+    // return view('login/result', compact('input'));
+    return view('login/result')->with('input', $input);
+  }
+}
+```

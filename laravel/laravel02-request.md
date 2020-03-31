@@ -379,7 +379,7 @@ postIndex()の編集
 blade には制御構文も用意されおり、権限の表示では if 文を使って表示する文字列を変えている。
 <div class="page"></div>
 
-## 資料最終段階のソース
+## 資料最終段階のソースコード
 
 ### 【app\Http\Controllers\LoginController.php】
 
