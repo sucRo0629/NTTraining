@@ -183,13 +183,13 @@ XAMPP を起動し、図のボタンから shell を起動する。
 
 以下のコマンドで `C\xampp\htdocs` フォルダへ移動。
 
-```
+```bash
 cd htdocs
 ```
 
 移動を確認後、以下のコマンドを実行する。
 
-```
+```bash
 composer create-project "laravel/laravel=5.4.*" LaravelSample
 ```
 
@@ -215,13 +215,13 @@ XAMPP の htdocs をエクスプローラから確認すると、フォルダが
 
 shell で以下のコマンドを実行し、プロジェクトフォルダへ移動する。
 
-```
+```bash
 cd c:\xampp\htdocs\LaravelSample
 ```
 
 移動を確認後、以下のコマンドを実行しサーバーを起動する。
 
-```
+```bash
 php artisan serve
 ```
 
@@ -261,7 +261,7 @@ shell 上に `Laravel development server started: <http://127.0.0.1:8000>` と�
 
 `routes/web.php` を編集する。
 
-```
+```php
 Route::get('/login', 'LoginController@getIndex');
 ```
 
@@ -303,7 +303,7 @@ shell を起動し `cd c:\xampp\htdocs\LaravelSample` を実行し
 
 移動後、以下のコマンドを実行。
 
-```
+```bash
 php artisan make:controller LoginController
 ```
 
