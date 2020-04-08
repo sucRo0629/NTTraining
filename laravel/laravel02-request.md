@@ -100,7 +100,7 @@ postIndex メソッドを作成する。
 【app\Http\Controllers\LoginController.php】
 
 ```php
-function postIndex()
+public function postIndex()
 {
   // view ファイルを返却
   return view('login/result');
@@ -173,8 +173,8 @@ function postIndex()
 【app\Http\Controllers\LoginController.php】
 
 ```diff
--function postIndex()
-+function postIndex(Request $request)
+-public function postIndex()
++public function postIndex(Request $request)
  {
 +  // リクエストパラメータを配列として全件取得
 +  $input = $request->all();
@@ -254,7 +254,7 @@ postIndex()の編集
 【app\Http\Controllers\LoginController.php】
 
 ```diff
- function postIndex(Request $request)
+ public function postIndex(Request $request)
  {
    // リクエストパラメータを配列として全件取得
    $input = $request->all();
@@ -288,7 +288,7 @@ postIndex()の編集
 【app\Http\Controllers\LoginController.php】
 
 ```diff
- function postIndex(Request $request)
+ public function postIndex(Request $request)
  {
    // リクエストパラメータを配列として全件取得
    $input = $request->all();
@@ -324,7 +324,7 @@ postIndex()の編集
 【app\Http\Controllers\LoginController.php】
 
 ```diff
- function postIndex(Request $request)
+ public function postIndex(Request $request)
  {
    // リクエストパラメータを配列として全件取得
    $input = $request->all();
@@ -392,13 +392,13 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-  function getIndex()
+  public function getIndex()
   {
     // view ファイルを返却
     return view('login/login');
   }
 
-  function postIndex(Request $request)
+  public function postIndex(Request $request)
   {
     // リクエストパラメータを配列として全件取得
     $input = $request->all();

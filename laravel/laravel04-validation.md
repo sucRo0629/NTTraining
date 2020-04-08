@@ -105,12 +105,12 @@
 
   class LoginController extends Controller
   {
-    function getIndex()
+    public function getIndex()
     {
       （略）
     }
 
-    function postIndex(Request $request)
+    public function postIndex(Request $request)
     {
       // リクエストパラメータを配列として全件取得
       $input = $request->all();
@@ -158,12 +158,12 @@
 
   class LoginController extends Controller
   {
-    function getIndex()
+    public function getIndex()
     {
       （略）
     }
 
-    function postIndex(Request $request)
+    public function postIndex(Request $request)
     {
 +     // Validation
 +     $rules = [
@@ -312,12 +312,12 @@
 
   class LoginController extends Controller
   {
-    function getIndex()
+    public function getIndex()
     {
       （略）
     }
 
-    function postIndex(Request $request)
+    public function postIndex(Request $request)
     {
       // リクエストパラメータを配列として全件取得
       $input = $request->all();
@@ -369,7 +369,7 @@
 
 ```diff
 （略）
-  function postIndex(Request $request)
+  public function postIndex(Request $request)
   {
     // リクエストパラメータを配列として全件取得
     $input = $request->all();
@@ -517,13 +517,13 @@ php artisan make:request LoginRequest
 
   class LoginController extends Controller
   {
-    function getIndex()
+    public function getIndex()
     {
       (略)
     }
 
--   function postIndex(Request $request)
-+   function postIndex(LoginRequest $request)
+-   public function postIndex(Request $request)
++   public function postIndex(LoginRequest $request)
     {
       // リクエストパラメータを配列として全件取得
       $input = $request->all();
@@ -732,7 +732,8 @@ $sample_code = $request->old('fieldName');
 フォームリクエストを生成する方法のソースコードのみ示す。
 
 ### resources\views\login\login.blade.php
-長いため2ページに分割して示す。
+
+長いため 2 ページに分割して示す。
 
 ```html
 @extends('layout/layout') @section('content') @if ($errors->any())
@@ -798,7 +799,7 @@ $sample_code = $request->old('fieldName');
 
 ### app\Http\Controllers\LoginController.php
 
-```php
+```diff
   <?php
 
   namespace App\Http\Controllers;
@@ -810,13 +811,13 @@ $sample_code = $request->old('fieldName');
 
   class LoginController extends Controller
   {
-    function getIndex()
+    public function getIndex()
     {
       (略)
     }
 
--   function postIndex(Request $request)
-+   function postIndex(LoginRequest $request)
+-   public function postIndex(Request $request)
++   public function postIndex(LoginRequest $request)
     {
       // リクエストパラメータを配列として全件取得
       $input = $request->all();

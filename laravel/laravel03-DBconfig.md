@@ -205,7 +205,7 @@ up メソッドがマイグレーションを実行する際の処理、down メ
 【database\migrations\〈作成日時〉\_users_table.php】
 
 ```diff
-  public function up()
+  public public function up()
   {
       Schema::create('users', function (Blueprint $table) {
           $table->increments('id');
@@ -262,7 +262,7 @@ VALUES('admin', 'admin', 1, NOW())
 【app\Http\Controllers\LoginController.php】
 
 ```diff
-  function getIndex()
+  public function getIndex()
   {
 +   $test = \App\Models\User::all();
 +   dump($test);
@@ -310,12 +310,12 @@ postIndex メソッドを以下のように変更する。
 
  class LoginController extends Controller
  {
-   function getIndex()
+   public function getIndex()
    {
      （略）
    }
 
-   function postIndex(Request $request)
+   public function postIndex(Request $request)
    {
      // リクエストパラメータを配列として全件取得
      $input = $request->all();
@@ -502,7 +502,7 @@ use を使うことでパスのエイリアス（別名）を定義すること�
 
  class LoginController extends Controller
  {
-   function getIndex()
+   public function getIndex()
    {
 -    $test = \App\Models\User::all();
 +    $test = User::all();
@@ -565,7 +565,7 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-  function getIndex()
+  public function getIndex()
   {
     // $test = User::all();
     // dump($test);
@@ -573,7 +573,7 @@ class LoginController extends Controller
     return view('login/login');
   }
 
-  function postIndex(Request $request)
+  public function postIndex(Request $request)
   {
     // リクエストパラメータを配列として全件取得
     $input = $request->all();
