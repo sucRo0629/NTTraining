@@ -252,14 +252,14 @@
 （略）
   <!-- input type="text" string -->
 - <div class="form-group">
-+ <div class="form-group @if(!empty($errors->first('name')))has-error @endif">
++ <div class="form-group @if(!empty($errors->first('name')))text-danger @endif">
     <label>名前</label>
     <input type="text" name="name" class="form-control">
 +   <span class="help-block">{{$errors->first('name')}}</span>
   </div>
   <!-- input type="text" int -->
 - <div class="form-group">
-+ <div class="form-group @if(!empty($errors->first('password')))has-error @endif">
++ <div class="form-group @if(!empty($errors->first('password')))text-danger @endif">
 
     <label>パスワード</label>
     <input type="password" name="password" class="form-control">
@@ -267,7 +267,7 @@
   </div>
   <!-- radio -->
   <p><b>権限</b></p>
-+ <div class="@if(!empty($errors->first('authority')))has-error @endif">
++ <div class="@if(!empty($errors->first('authority')))text-danger @endif">
     <div class="radio-inline">
       <label>
         <input type="radio" name="authority" value="1">管理者
@@ -693,7 +693,7 @@ $sample_code = $request->old('fieldName');
 （略）
 
   <p><b>権限</b></p>
-  <div class="@if(!empty($errors->first('authority')))has-error @endif">
+  <div class="@if(!empty($errors->first('authority')))text-danger @endif">
     <div class="radio-inline">
       <label>
 -       <input type="radio" name="authority" value="1">管理者
@@ -754,7 +754,7 @@ $sample_code = $request->old('fieldName');
 <form method="post" action="/login">
   {{ csrf_field() }}
   <!-- input type="text" string -->
-  <div class="form-group @if(!empty($errors->first('name')))has-error @endif">
+  <div class="form-group @if(!empty($errors->first('name')))text-danger @endif">
     <label>名前</label>
     <input
       type="text"
@@ -766,7 +766,7 @@ $sample_code = $request->old('fieldName');
   </div>
   <!-- input type="text" int -->
   <div
-    class="form-group @if(!empty($errors->first('password')))has-error @endif"
+    class="form-group @if(!empty($errors->first('password')))text-danger @endif"
   >
     <label>パスワード</label>
     <input type="password" name="password" class="form-control" />
@@ -774,7 +774,7 @@ $sample_code = $request->old('fieldName');
   </div>
   <!-- radio -->
   <p><b>権限</b></p>
-  <div class="@if(!empty($errors->first('authority')))has-error @endif">
+  <div class="@if(!empty($errors->first('authority')))text-danger @endif">
     <div class="radio-inline">
       <label>
         <input type="radio" name="authority" value="1" @if (old('authority') ==
