@@ -424,37 +424,32 @@ MVC の V ... View にあたる。
 ```html
 @extends('layout/layout')
 @section('content')
-<!-- form -->
 <form method="post" action="/login">
-{{ csrf_field() }}
-<!-- input type="text" string -->
-<div class="form-group">
+  <h2>ログイン</h2>
+  {{ csrf_field() }}
   <label>名前</label>
-<input type="text" name="name" class="form-control">
-</div>
-
-<!-- input type="text" int -->
-<div class="form-group" >
+  <div class="form-group">
+    <input type="text" name="name" class="form-control">
+  </div>
   <label>パスワード</label>
-  <input type="password" name="password" class="form-control">
-</div>
-
-<!-- radio -->
-<p><b>権限</b></p>
-<div class="radio-inline">
-  <label>
-    <input type="radio" name="authority" value="1" >管理者
-  </label>
-</div>
-
-<div class="radio-inline">
-  <label>
-    <input type="radio" name="authority" value="2">一般
-  </label>
-</div>
-
-<br/><br/>
-<input type="submit" value="ログイン" class="btn btn-primary">
+  <div class="form-group ">
+    <input type="password" name="password" class="form-control">
+  </div>
+  <label>権限</label>
+  <div class="form-group">
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="authority" value="1">管理者
+      </label>
+    </div>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="authority" value="2">⼀般
+      </label>
+    </div>
+  </div>
+  <br>
+  <input type="submit" value="登録" class="btn btn-primary">
 </form>
 @stop
 ```
@@ -465,7 +460,6 @@ MVC の V ... View にあたる。
 
 ## 画面を確認
 
-少々画面がアレだが、表示には成功した。
+ロゴ画像がリンク切れしているが、表示には成功した。
 
 ![larabel_text](img/2020-02-13-18-26-36.png)
-
