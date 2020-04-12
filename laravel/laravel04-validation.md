@@ -251,6 +251,7 @@
 
 ```diff
 （略）
+<<<<<<< HEAD
   <label>名前</label>
   <div class="form-group">
 -   <input type="text" name="name" class="form-control">
@@ -275,6 +276,26 @@
 - <div class="form-group">
 + <div class="form-group
 +   @if(!empty($errors->first('authority')))text-danger @endif">
+=======
+  <!-- input type="text" string -->
+- <div class="form-group">
++ <div class="form-group @if(!empty($errors->first('name')))text-danger @endif">
+    <label>名前</label>
+    <input type="text" name="name" class="form-control">
++   <span class="help-block">{{$errors->first('name')}}</span>
+  </div>
+  <!-- input type="text" int -->
+- <div class="form-group">
++ <div class="form-group @if(!empty($errors->first('password')))text-danger @endif">
+
+    <label>パスワード</label>
+    <input type="password" name="password" class="form-control">
++   <span class="help-block">{{$errors->first('password')}}</span>
+  </div>
+  <!-- radio -->
+  <p><b>権限</b></p>
++ <div class="@if(!empty($errors->first('authority')))text-danger @endif">
+>>>>>>> 902b83bbb25bd0544ea65a0d0eb66c97376b0937
     <div class="radio-inline">
       <label>
         <input type="radio" name="authority" value="1">管理者
@@ -703,9 +724,14 @@ $sample_code = $request->old('fieldName');
 
 （略）
 
+<<<<<<< HEAD
   <label>権限</label>
   <div class="form-group
     @if(!empty($errors->first('authority')))text-danger @endif">
+=======
+  <p><b>権限</b></p>
+  <div class="@if(!empty($errors->first('authority')))text-danger @endif">
+>>>>>>> 902b83bbb25bd0544ea65a0d0eb66c97376b0937
     <div class="radio-inline">
       <label>
 -       <input type="radio" name="authority" value="1">管理者
@@ -770,6 +796,7 @@ $sample_code = $request->old('fieldName');
 <div class="page"></div>
 
 ```html
+<<<<<<< HEAD
   <label>名前</label>
   <div class="form-group">
     <input type="text" name="name"
@@ -793,6 +820,33 @@ $sample_code = $request->old('fieldName');
   <label>権限</label>
   <div class="form-group
     @if(!empty($errors->first('authority')))text-danger @endif">
+=======
+<!-- form -->
+<form method="post" action="/login">
+  {{ csrf_field() }}
+  <!-- input type="text" string -->
+  <div class="form-group @if(!empty($errors->first('name')))text-danger @endif">
+    <label>名前</label>
+    <input
+      type="text"
+      name="name"
+      class="form-control"
+      value="{{ old('name') }}"
+    />
+    <span class="help-block">{{$errors->first('name')}}</span>
+  </div>
+  <!-- input type="text" int -->
+  <div
+    class="form-group @if(!empty($errors->first('password')))text-danger @endif"
+  >
+    <label>パスワード</label>
+    <input type="password" name="password" class="form-control" />
+    <span class="help-block">{{$errors->first('password')}}</span>
+  </div>
+  <!-- radio -->
+  <p><b>権限</b></p>
+  <div class="@if(!empty($errors->first('authority')))text-danger @endif">
+>>>>>>> 902b83bbb25bd0544ea65a0d0eb66c97376b0937
     <div class="radio-inline">
       <label>
         <input type="radio" name="authority" value="1"
