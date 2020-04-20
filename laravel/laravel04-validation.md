@@ -223,7 +223,7 @@
 +     @endforeach
 +     </ul>
 +   </div>
-    @endif
++   @endif
     {{ csrf_field() }}
 
  （略）
