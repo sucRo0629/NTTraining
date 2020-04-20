@@ -1,4 +1,5 @@
 <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
 <style>
   a::after {
     padding: 0 4px;
@@ -69,7 +70,7 @@ DB ファサードを用いる場合の基本的な書き方は資料末尾に�
    1. ユーザ登録
    1. ユーザ更新
    1. ユーザ削除
-1. （付録）DB ファサードによる CRUD
+1. （付録）DB ファサードによる追加・更新・削除
 1. （付録）フラッシュメッセージ
 
 ## ルーティング追加
@@ -151,9 +152,10 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
 
 【resources\views\login\list.blade.php】
 
+<!-- フォーマットすると微妙になるので最後に直す -->
+
 ```html
-@extends('layout/layout')
-@section('content')
+@extends('layout/layout') @section('content')
 
 <div>
   <h2 class="d-inline-block">ユーザ一覧</h2>
@@ -177,11 +179,8 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
       <td>{{ $item->id }}</td>
       <td>{{ $item->name }}</td>
       <td>
-        @if ($item->authority == '1')
-        管理者
-        @elseif($item->authority == '2')
-        一般
-        @endif
+        @if ($item->authority == '1') 管理者 @elseif($item->authority == '2')
+        一般 @endif
       </td>
       <td>{{ date('Y/m/d', strtotime($item->created_at)) }}</td>
       <td>{{ date('Y/m/d', strtotime($item->updated_at)) }}</td>
@@ -212,7 +211,7 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
 
 ## 動作確認
 
-一覧画面（[http://localhost:8000/](http://localhost:8000/)）にアクセスし、DBに登録してあるデータが表示されていることを確認する。
+一覧画面（[http://localhost:8000/](http://localhost:8000/)）にアクセスし、DB に登録してあるデータが表示されていることを確認する。
 
 ![laravelText](img/20200414103004.png)
 
@@ -240,34 +239,40 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
 
 【resources\views\login\create\input.blade.php】
 
+<!-- フォーマットすると微妙になるので最後に直す -->
+
 ```html
-@extends('layout/layout')
-@section('content')
+@extends('layout/layout') @section('content')
 <form method="post" action="/create">
   <h2>ユーザ登録</h2>
   @if ($errors->any())
   <div class="alert alert-danger">
     <ul>
-    @foreach ($errors->all() as $error)
+      @foreach ($errors->all() as $error)
       <li>{{ $error }}</li>
-    @endforeach
+      @endforeach
     </ul>
   </div>
-  @endif
-  {{ csrf_field() }}
+  @endif {{ csrf_field() }}
   <label>名前</label>
   <div class="form-group">
-    <input type="text" name="name"
+    <input
+      type="text"
+      name="name"
       class="form-control @if(!empty($errors->first('name')))border-danger @endif"
-      value="{{ old('name') }}">
+      value="{{ old('name') }}"
+    />
     <p>
       <span class="help-block text-danger">{{$errors->first('name')}}</span>
     </p>
   </div>
   <label>パスワード</label>
   <div class="form-group ">
-    <input type="password" name="password"
-      class="form-control @if(!empty($errors->first('name')))border-danger @endif">
+    <input
+      type="password"
+      name="password"
+      class="form-control @if(!empty($errors->first('name')))border-danger @endif"
+    />
     <p>
       <span class="help-block text-danger">
         {{$errors->first('password')}}
@@ -275,26 +280,30 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
     </p>
   </div>
   <label>権限</label>
-  <div class="form-group
-    @if(!empty($errors->first('authority')))text-danger @endif">
+  <div
+    class="form-group
+    @if(!empty($errors->first('authority')))text-danger @endif"
+  >
     <div class="radio-inline">
       <label>
-        <input type="radio" name="authority" value="1"
-          @if (old('authority') == 1) checked @endif>管理者
+        <input type="radio" name="authority" value="1" @if (old('authority') ==
+        1) checked @endif>管理者
       </label>
     </div>
     <div class="radio-inline">
       <label>
-        <input type="radio" name="authority" value="2"
-          @if (old('authority') == 2) checked @endif>⼀般
+        <input type="radio" name="authority" value="2" @if (old('authority') ==
+        2) checked @endif>⼀般
       </label>
     </div>
     <p>
-      <span class="help-block text-danger">{{$errors->first('authority')}}</span>
+      <span class="help-block text-danger"
+        >{{$errors->first('authority')}}</span
+      >
     </p>
   </div>
-  <br>
-  <input type="submit" value="登録" class="btn btn-primary">
+  <br />
+  <input type="submit" value="登録" class="btn btn-primary" />
   <a href="/" class="btn btn-secondary">戻る</a>
 </form>
 @stop
@@ -317,9 +326,10 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
 
 【resources\views\login\create\check.blade.php】
 
+<!-- フォーマットすると微妙になるので最後に直す -->
+
 ```html
-@extends('layout/layout')
-@section('content')
+@extends('layout/layout') @section('content')
 <form method="post" action="/create/done" id="create_form">
   <h2>ユーザ登録</h2>
   {{ csrf_field() }}
@@ -328,33 +338,33 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
       <th scope="row">名前</th>
       <td>
         {{ $input['name'] }}
-        <input type="hidden" name="name" value="{{ $input['name'] }}">
+        <input type="hidden" name="name" value="{{ $input['name'] }}" />
       </td>
     </tr>
     <tr>
       <th scope="row">権限</th>
       <td>
-        @if ($input['authority'] === '1')
-        管理者
-        @else
-        一般
-        @endif
-        <input type="hidden" name="authority" value="{{ $input['authority'] }}">
+        @if ($input['authority'] === '1') 管理者 @else 一般 @endif
+        <input
+          type="hidden"
+          name="authority"
+          value="{{ $input['authority'] }}"
+        />
       </td>
     </tr>
   </table>
-  <input type="hidden" name="password" value="{{ $input['password'] }}">
+  <input type="hidden" name="password" value="{{ $input['password'] }}" />
   <p>以上の内容で登録します。</p>
-  <br>
+  <br />
 </form>
-<input type="submit" form="create_form" value="登録" class="btn btn-primary">
+<input type="submit" form="create_form" value="登録" class="btn btn-primary" />
 <button class="btn btn-secondary" onclick="history.back()">戻る</button>
 @stop
 ```
 
 ## ユーザ登録実行処理の作成
 
-実際にEloquentで新規レコードを追加している部分である。
+実際に Eloquent で新規レコードを追加している部分である。
 
 「登録しました」と表示するようなページを作成してもよいと思うが、今回は省略して登録成功後は一覧画面にリダイレクトするようにする。  
 更新・削除も同様の方針で作成する。
@@ -365,11 +375,11 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
   public function createDone(LoginRequest $request)
   {
     try {
-      $new_user = new User;
-      $new_user->name = $request->name;
-      $new_user->password = $request->password;
-      $new_user->authority = $request->authority;
-      $new_user->save();
+      $user_record = new User;
+      $user_record->name = $request->name;
+      $user_record->password = $request->password;
+      $user_record->authority = $request->authority;
+      $user_record->save();
 
       return redirect()->action('LoginController@list');
     } catch (Exception $e) {
@@ -378,13 +388,11 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
   }
 ```
 
-リダイレクトはルーティングを設定したURLを指定して以下のように書いても一覧画面にリダイレクトできる。  
-サンプルコードはコントローラーとそのメソッドを指定する方法で記述したが、今回はわかりやすい方で書いて構わない。
-
-
+リダイレクトはルーティングを設定した URL を指定して以下のように書いても一覧画面にリダイレクトできる。  
+サンプルコードはコントローラーとそのメソッドを指定する方法で記述したが、わかりやすい方で書いて構わない。
 
 ```php
-  // Route::get('/', 'LoginController@list');
+  // 一覧ページのルーティング：Route::get('/', 'LoginController@list');
   return redirect('/');
 ```
 
@@ -402,19 +410,224 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
 
 ### コントローラー作成
 
+`edit`メソッドを追加する。
+
+【app\Http\Controllers\LoginController.php】
+
+```php
+  public function edit($id)
+  {
+    try {
+      $user_data = User::find($id);
+      if (is_null($user_data)) {
+        return redirect()->action('LoginController@list');
+      }
+
+      return view('login/edit/input')->with(
+        'input', [
+          'name' => $user_data->name,
+          'authority' => $user_data->authority,
+          'id' => $id
+        ]);
+    } catch (Exception $e) {
+      return view('error');
+    }
+  }
+```
+
+前述の通りルートパラメーターとして`$id`に ID が渡されている。  
+users テーブルを ID で検索して、データがなければ一覧ページにリダイレクト、データがあれば取得したデータと ID をビューに渡している。
+
 ### ビューの作成
+
+更新ページは登録ページとほぼ同じ画面である。
+
+複製して作成するのは改修の手間が増えて本来は推奨しないが、簡単にするため今回はそのようにする。
+
+登録ページのビューのフォルダを複製して、フォルダ名を`edit`に変更して各ファイルを変更していく。
+
+【resources\views\login\edit\input.blade.php】
+
+<!-- フォーマットすると微妙になるので最後に直す -->
+
+```html
+@extends('layout/layout') @section('content')
+<form method="post" action="/edit/{{ $input['id'] }}">
+  <h2>ユーザ更新</h2>
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+  @endif {{ csrf_field() }}
+  <label>名前</label>
+  <div class="form-group">
+    <input type="text" name="name" class="form-control
+    @if(!empty($errors->first('name')))border-danger @endif" @if
+    (isset($input['name'])) value="{{ $input['name'] }}"> @else value="{{
+    old('name') }}"> @endif
+    <p>
+      <span class="help-block text-danger">{{$errors->first('name')}}</span>
+    </p>
+  </div>
+  <label>パスワード</label>
+  <div class="form-group ">
+    {{-- Laravelではパスワードのoldは自動的にNULLになるため書かない --}}
+    <input
+      type="password"
+      name="password"
+      class="form-control @if(!empty($errors->first('name')))border-danger @endif"
+    />
+    <p>
+      <span class="help-block text-danger">
+        {{$errors->first('password')}}
+      </span>
+    </p>
+  </div>
+  <label>権限</label>
+  <div
+    class="form-group
+    @if(!empty($errors->first('authority')))text-danger @endif"
+  >
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="authority" value="1" @if
+        (isset($input['authority']) && $input['authority'] == 1 ||
+        old('authority') == 1) checked @endif >管理者
+      </label>
+    </div>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="authority" value="2" @if
+        (isset($input['authority']) && $input['authority'] == 2 ||
+        old('authority') == 2) checked @endif >一般
+      </label>
+    </div>
+    <p>
+      <span class="help-block text-danger"
+        >{{$errors->first('authority')}}</span
+      >
+    </p>
+  </div>
+  <br />
+  <input type="submit" value="更新" class="btn btn-success" />
+  <a href="/" class="btn btn-secondary">戻る</a>
+</form>
+@stop
+```
+
+登録ページとの違いは、各入力要素に DB の値が最初から入っている点とタイトルとボタン名である。
 
 ## ユーザ更新確認ページの作成
 
 ### コントローラー作成
 
+【app\Http\Controllers\LoginController.php】
+
+```php
+  public function editCheck(LoginRequest $request, $id)
+  {
+    $input = $request->all() + ['id' => $id];
+    return view('login/edit/check')->with('input', $input);
+  }
+```
+
 ### ビューの作成
+
+【resources\views\login\edit\check.blade.php】
+
+<!-- フォーマットすると微妙になるので最後に直す -->
+
+```html
+@extends('layout/layout') @section('content')
+
+<div>
+  <h2 class="d-inline-block">ユーザ一覧</h2>
+  <a href="/create" class="btn btn-primary float-right">追加</a>
+</div>
+@if (isset($list))
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>名前</th>
+      <th>権限</th>
+      <th>作成日</th>
+      <th>更新日</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($list as $item)
+    <tr>
+      <td>{{ $item->id }}</td>
+      <td>{{ $item->name }}</td>
+      <td>
+        @if ($item->authority == '1') 管理者 @elseif($item->authority == '2')
+        一般 @endif
+      </td>
+      <td>{{ date('Y/m/d', strtotime($item->created_at)) }}</td>
+      <td>{{ date('Y/m/d', strtotime($item->updated_at)) }}</td>
+      <td>
+        <a href="/edit/{{ $item->id }}" class="btn btn-success">更新</a>
+        <a href="/delete/{{ $item->id }}" class="btn btn-danger">削除</a>
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+@else
+<p>ユーザは登録されていませんでした。</p>
+@endif @stop
+```
 
 ## ユーザ更新実行処理の作成
 
 ### コントローラー作成
 
+【app\Http\Controllers\LoginController.php】
+
+```php
+  public function editDone(LoginRequest $request, $id)
+  {
+    try {
+      $user_record = User::find($id);
+      $user_record->name = $request->name;
+      $user_record->password = $request->password;
+      $user_record->authority = $request->authority;
+      $user_record->save();
+
+      return redirect()->action('LoginController@list');
+    } catch (Exception $e) {
+      return view('error');
+    }
+  }
+```
+
+登録処理との違いは以下の通り。（- が登録、+ が更新、同じ部分は印なし）  
+ほぼ同じ書き方で書けるようになっている。
+
+```diff
+- $user_record = new User;
++ $user_record = User::find($id);
+  $user_record->name = $request->name;
+  $user_record->password = $request->password;
+  $user_record->authority = $request->authority;
+  $user_record->save();
+```
+
 ## 動作確認
+
+一覧画面（[http://localhost:8000/](http://localhost:8000/)）にアクセスし、いずれかのユーザの「更新」ボタンを押下して適当なユーザの情報を更新し、変更したとおりに一覧に表示されることを確認する。
+
+![laravelText](img/20200414105548.png)
+
+![laravelText](img/20200414175718.png)
+
+![laravelText](img/20200414175747.png)
 
 ## ユーザ削除ページの作成
 
@@ -422,3 +635,6 @@ DB 接続で**例外**（Exception）が発生した場合に備えて try-catch
 
 ### ビューの作成
 
+## （付録）DB ファサードによる追加・更新・削除
+
+## （付録）フラッシュメッセージ
