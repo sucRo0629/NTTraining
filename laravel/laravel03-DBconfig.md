@@ -248,8 +248,8 @@ phpMyAdmin で確認するとテーブルが追加されている。
 phpMyAdmin で以下の sql を実行する。
 
 ```sql
-INSERT INTO users(name, password, authority, created_at)
-VALUES('admin', 'admin', 1, NOW())
+INSERT INTO users(name, password, authority, created_at, updated_at)
+VALUES('admin', 'admin', 1, NOW(), NOW())
 ```
 
 <div class="page"></div>

@@ -213,18 +213,19 @@
 ```diff
   @extends('layout/layout')
   @section('content')
-+
-+ @if ($errors->any())
-+ <div class="alert alert-danger">
-+   <ul>
-+   @foreach ($errors->all() as $error)
-+     <li>{{ $error }}</li>
-+   @endforeach
-+   </ul>
-+ </div>
-+ @endif
-+
- <!-- form -->
+  <form method="post" action="/login">
+    <h2>ログイン</h2>
++   @if ($errors->any())
++   <div class="alert alert-danger">
++     <ul>
++     @foreach ($errors->all() as $error)
++       <li>{{ $error }}</li>
++     @endforeach
++     </ul>
++   </div>
++   @endif
+    {{ csrf_field() }}
+
  （略）
 ```
 
@@ -250,24 +251,30 @@
 
 ```diff
 （略）
-  <!-- input type="text" string -->
-- <div class="form-group">
-+ <div class="form-group @if(!empty($errors->first('name')))has-error @endif">
-    <label>名前</label>
-    <input type="text" name="name" class="form-control">
-+   <span class="help-block">{{$errors->first('name')}}</span>
+  <label>名前</label>
+  <div class="form-group">
+-   <input type="text" name="name" class="form-control">
++   <input type="text" name="name"
++     class="form-control @if(!empty($errors->first('name')))border-danger @endif">
++   <p>
++     <span class="help-block text-danger">{{$errors->first('name')}}</span>
++   </p>
   </div>
-  <!-- input type="text" int -->
-- <div class="form-group">
-+ <div class="form-group @if(!empty($errors->first('password')))has-error @endif">
-
-    <label>パスワード</label>
-    <input type="password" name="password" class="form-control">
-+   <span class="help-block">{{$errors->first('password')}}</span>
+  <label>パスワード</label>
+  <div class="form-group ">
+-   <input type="password" name="password" class="form-control">
++   <input type="password" name="password"
++     class="form-control @if(!empty($errors->first('name')))border-danger @endif">
++   <p>
++     <span class="help-block text-danger">
++       {{$errors->first('password')}}
++     </span>
++   </p>
   </div>
-  <!-- radio -->
-  <p><b>権限</b></p>
-+ <div class="@if(!empty($errors->first('authority')))has-error @endif">
+  <label>権限</label>
+- <div class="form-group">
++ <div class="form-group
++   @if(!empty($errors->first('authority')))text-danger @endif">
     <div class="radio-inline">
       <label>
         <input type="radio" name="authority" value="1">管理者
@@ -278,8 +285,11 @@
         <input type="radio" name="authority" value="2">⼀般
       </label>
     </div>
-+   <span class="help-block">{{$errors->first('authority')}}</span>
-+ </div>
++   <p>
++     <span class="help-block text-danger">{{$errors->first('authority')}}</span>
++   </p>
+  </div>
+
 （略）
 ```
 
@@ -441,7 +451,7 @@ php artisan make:request LoginRequest
 ---
 
 ところで VSCode にはワークスペースという概念がある。  
-細かいことは分からなくてよいが、以下の「フォルダーを開く」から作業フォルダを開くと、そのフォルダがワークスペースとして設定され、フォルダツリーが表示される。
+細かいことは分からなくてよいが、以下の「フォルダーを開く」から作業フォルダを開くか、この場所にフォルダをドラッグ＆ドロップすると、そのフォルダがワークスペースとして設定され、フォルダツリーが表示される。
 ![laravelText](img/20200331143921.png) ![laravelText](img/20200331144352.png)
 
 これだけではさほど便利さは感じないが、ワークスペースに設定していると、`Ctrl+p`のショートカットキーで開く入力欄からファイル名を検索して開くことができる。  
@@ -500,8 +510,8 @@ php artisan make:request LoginRequest
 
 ### 3-3.コントローラの変更
 
-`getPost`メソッドで受取るリクエストのタイプヒントを自作したリクエストクラスに変更する。  
-これによってフォームから送られてきたリクエストは`LoginRequest.php`で設定したルールに基づいてバリデーションされた後、`getPost`メソッドが実行されることになる。
+`postIndex`メソッドで受取るリクエストのタイプヒントを自作したリクエストクラスに変更する。  
+これによってフォームから送られてきたリクエストは`LoginRequest.php`で設定したルールに基づいてバリデーションされた後、`postIndex`メソッドが実行されることになる。
 
 【app\Http\Controllers\LoginController.php】
 
@@ -510,9 +520,8 @@ php artisan make:request LoginRequest
 
   namespace App\Http\Controllers;
 
-  use Illuminate\Http\Request;
+- use Illuminate\Http\Request;
   use App\Models\User;
-  use Validator;
 + use App\Http\Requests\LoginRequest;
 
   class LoginController extends Controller
@@ -574,10 +583,10 @@ curl -OL https://raw.githubusercontent.com/rito-nishino/Laravel-Japanese-Languag
 curl -OL https://raw.githubusercontent.com/rito-nishino/Laravel-Japanese-Language-fileset/master/validation.php
 ```
 
+![laravelText](img/20200331154357.png)
+
 すべてダウンロードが終了したら、念の為ファイルを ja フォルダに確認しに行く。
 ダウンロードした`auth.php`、`pagination.php`、`passwords.php`、`validation.php`が存在していれば問題ない。
-
-![laravelText](img/20200331154357.png)
 
 <div class="page"></div>
 
@@ -687,27 +696,34 @@ $sample_code = $request->old('fieldName');
 （略）
 
     <label>名前</label>
--   <input type="text" name="name" class="form-control">
-+   <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+    <input type="text" name="name"
+-     class="form-control @if(!empty($errors->first('name')))border-danger @endif">
++     class="form-control @if(!empty($errors->first('name')))border-danger @endif"
++     value="{{ old('name') }}">
 
 （略）
 
-  <p><b>権限</b></p>
-  <div class="@if(!empty($errors->first('authority')))has-error @endif">
+  <label>権限</label>
+  <div class="form-group
+    @if(!empty($errors->first('authority')))text-danger @endif">
     <div class="radio-inline">
       <label>
 -       <input type="radio" name="authority" value="1">管理者
-+       <input type="radio" name="authority" value="1" @if (old('authority') == 1) checked @endif>管理者
++       <input type="radio" name="authority" value="1"
++         @if (old('authority') == 1) checked @endif>管理者
       </label>
     </div>
     <div class="radio-inline">
       <label>
 -       <input type="radio" name="authority" value="2">⼀般
-+       <input type="radio" name="authority" value="2" @if (old('authority') == 2) checked @endif>⼀般
++       <input type="radio" name="authority" value="2"
++         @if (old('authority') == 2) checked @endif>⼀般
       </label>
     </div>
     <span class="help-block">{{$errors->first('authority')}}</span>
   </div>
+
+（略）
 ```
 
 <div class="page"></div>
@@ -736,61 +752,65 @@ $sample_code = $request->old('fieldName');
 長いため 2 ページに分割して示す。
 
 ```html
-@extends('layout/layout') @section('content') @if ($errors->any())
-<div class="alert alert-danger">
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
+@extends('layout/layout') @section('content')
+<form method="post" action="/login">
+  <h2>ログイン</h2>
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+  @endif {{ csrf_field() }}
+</form>
 ```
 
 <div class="page"></div>
 
 ```html
-<!-- form -->
-<form method="post" action="/login">
-  {{ csrf_field() }}
-  <!-- input type="text" string -->
-  <div class="form-group @if(!empty($errors->first('name')))has-error @endif">
-    <label>名前</label>
-    <input
-      type="text"
-      name="name"
-      class="form-control"
-      value="{{ old('name') }}"
-    />
-    <span class="help-block">{{$errors->first('name')}}</span>
+  <label>名前</label>
+  <div class="form-group">
+    <input type="text" name="name"
+      class="form-control @if(!empty($errors->first('name')))border-danger @endif"
+      value="{{ old('name') }}">
+    <p>
+      <span class="help-block text-danger">{{$errors->first('name')}}</span>
+    </p>
   </div>
-  <!-- input type="text" int -->
-  <div
-    class="form-group @if(!empty($errors->first('password')))has-error @endif"
-  >
-    <label>パスワード</label>
-    <input type="password" name="password" class="form-control" />
-    <span class="help-block">{{$errors->first('password')}}</span>
+  <label>パスワード</label>
+  <div class="form-group ">
+    {{-- Laravelではパスワードのoldは自動的にNULLになるため書かない --}}
+    <input type="password" name="password"
+      class="form-control @if(!empty($errors->first('name')))border-danger @endif">
+    <p>
+      <span class="help-block text-danger">
+        {{$errors->first('password')}}
+      </span>
+    </p>
   </div>
-  <!-- radio -->
-  <p><b>権限</b></p>
-  <div class="@if(!empty($errors->first('authority')))has-error @endif">
+  <label>権限</label>
+  <div class="form-group
+    @if(!empty($errors->first('authority')))text-danger @endif">
     <div class="radio-inline">
       <label>
-        <input type="radio" name="authority" value="1" @if (old('authority') ==
-        1) checked @endif>管理者
+        <input type="radio" name="authority" value="1"
+          @if (old('authority') == 1) checked @endif>管理者
       </label>
     </div>
     <div class="radio-inline">
       <label>
-        <input type="radio" name="authority" value="2" @if (old('authority') ==
-        2) checked @endif>⼀般
+        <input type="radio" name="authority" value="2"
+          @if (old('authority') == 2) checked @endif>⼀般
       </label>
     </div>
-    <span class="help-block">{{$errors->first('authority')}}</span>
+    <p>
+      <span class="help-block text-danger">{{$errors->first('authority')}}</span>
+    </p>
   </div>
-  <br /><br />
-  <input type="submit" value="ログイン" class="btn btn-primary" />
+  <br>
+  <input type="submit" value="登録" class="btn btn-primary">
 </form>
 @stop
 ```
@@ -799,7 +819,7 @@ $sample_code = $request->old('fieldName');
 
 ### app\Http\Controllers\LoginController.php
 
-```diff
+```php
   <?php
 
   namespace App\Http\Controllers;
@@ -816,8 +836,7 @@ $sample_code = $request->old('fieldName');
       (略)
     }
 
--   public function postIndex(Request $request)
-+   public function postIndex(LoginRequest $request)
+    public function postIndex(LoginRequest $request)
     {
       // リクエストパラメータを配列として全件取得
       $input = $request->all();
