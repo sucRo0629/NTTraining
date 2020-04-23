@@ -137,10 +137,10 @@ WHERE genre_of_restaurant.restaurant_id IS NULL
 SELECT DISTINCT restaurant.id, restaurant.name, genre.name
 FROM restaurant
 JOIN genre_of_restaurant
-  ON restaurant_id = genre_of_restaurant.restaurant_id
+  ON restaurant.id = genre_of_restaurant.restaurant_id
 JOIN genre
   ON genre_of_restaurant.genre_id = genre.id
-WHERE restaurant.id = 8
+where restaurant.id = 8
 ```
 
 <div class="page">
