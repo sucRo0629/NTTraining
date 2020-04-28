@@ -600,52 +600,35 @@ public function editCheck(LoginRequest $request, $id)
 ```html
 @extends('layout/layout')
 @section('content')
-<div>
-  <h2 class="d-inline-block">ユーザ一覧</h2>
-  <a href="/create" class="btn btn-primary float-right">追加</a>
-</div>
-@if (isset($list))
-<table class="table table-hover">
-  <thead>
+<form method="post" action="/edit/done/{{ $input['id'] }}" id="edit_form">
+  <h2>ユーザ更新</h2>
+  {{ csrf_field() }}
+  <table class="table">
     <tr>
-      <th>ID</th>
-      <th>名前</th>
-      <th>権限</th>
-      <th>作成日</th>
-      <th>更新日</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-```
-
-<div class="page"></div>
-
-```html
-  <tbody>
-    @foreach ($list as $item)
-    <tr>
-      <td>{{ $item->id }}</td>
-      <td>{{ $item->name }}</td>
+      <th scope="row">名前</th>
       <td>
-        @if ($item->authority == '1')
-          管理者
-        @elseif($item->authority == '2')
-          一般
+        {{ $input['name'] }}
+        <input type="hidden" name="name" value="{{ $input['name'] }}">
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">権限</th>
+      <td>
+        @if ($input['authority'] === '1')
+        管理者
+        @else
+        一般
         @endif
-      </td>
-      <td>{{ date('Y/m/d', strtotime($item->created_at)) }}</td>
-      <td>{{ date('Y/m/d', strtotime($item->updated_at)) }}</td>
-      <td>
-        <a href="/edit/{{ $item->id }}" class="btn btn-success">更新</a>
-        <a href="/delete/{{ $item->id }}" class="btn btn-danger">削除</a>
+        <input type="hidden" name="authority" value="{{ $input['authority'] }}">
       </td>
     </tr>
-    @endforeach
-  </tbody>
-</table>
-@else
-<p>ユーザは登録されていませんでした。</p>
-@endif
+  </table>
+  <input type="hidden" name="password" value="{{ $input['password'] }}">
+  <p>以上の内容で更新します。</p>
+  <br>
+</form>
+<input type="submit" form="edit_form" value="更新" class="btn btn-success">
+<button class="btn btn-secondary" onclick="history.back()">戻る</button>
 @stop
 ```
 
