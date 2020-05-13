@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js課題2-1</title>
+  <script>
+    const str = '123';
+    let result = 'str=' + str + '\n';
+
+    if (/^[0-9]+$/.test(str)) {
+      result += 'true';
+    } else {
+      result += 'false';
+    }
+
+    alert(result);
+  </script>
+</head>
+<body>
+  <p>
+    2-1.変数 str に任意の⽂字列を代⼊し、正規表現を⽤いて半⾓数字のみの⽂字列なら「true」、それ以外なら「false」と表⽰せよ。<br>
+    なお、制御⽂は使⽤しない。
+  </p>
+</body>
+</html>
