@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>js課題5-2</title>
+  <script type="text/javascript" src="js/script.js"></script>
+</head>
+<body>
+  <p>
+    5-2.りんごの詳細情報を画面に表示する関数を外部ファイルに作成せよ。
+  </p>
+  <p>
+    <b>詳細</b>
+    <ul>
+      <li>関数名は任意。</li>
+      <li>作成するファイル名は「script.js」。</li>
+      <li>配置場所は「js」フォルダ。</li>
+      <li>html ファイルから読み込む。</li>
+      <li>詳細情報の切り替えは「価格:256 円」のテキストにマウスカーソルが乗っているか否か。</li>
+      <li>価格がある行（テキストがない場所）にマウスカーソルが乗っている場合は詳細表示しない。</li>
+    </ul>
+  </p>
+
+  <p>価格マウスオーバーでりんごの詳細情報を表示</p>
+  <p><span onmouseover="showDetail()" onmouseout="hideDetail()">価格:256円</span></p>
+
+  <!-- 要素のdisplayを変更する方法 -->
+  <p id="detail" style="display:none">
+    品種: 秋陽<br>
+    産地: 山形県
+  </p>
+
+  <!-- 要素を追加削除する方法 -->
+  <p id="detail2"></p>
+</body>
+</html>

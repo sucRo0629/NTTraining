@@ -1,66 +1,8 @@
-<style>
-
-  a::after {
-      padding: 0 4px;
-      content: "\f35d";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      font-size: 0.8rem;
-  }
-
-  @media print {
-    @page { margin: 0; }
-    body { margin: 1.6cm; }
-  }
-
-  h2 {
-    border-left: solid 6px #28a745;
-    border-bottom: none!important;
-    padding-left: 16px;
-    height: 40px!important;
-    line-height: 40px!important;
-    font-weight: bold!important;
-  }
-
-  h3 {
-    padding-left: -14px;
-    border-bottom: dashed #ccc 1px;
-  }
-
-  h3:before {
-    content: "■ ";
-    color: #17a2b8;
-  }
-
-  th, td {
-    border: solid 1px #666;
-  }
-
-  table {
-    margin-bottom: 30px;
-  }
-
-  strong {
-    color: #f66;
-  }
-
-  hr {
-    margin-bottom: 30px;
-    border-color: #ccc;
-  }
-
-  blockquote {
-    background: none!important;
-    /* font-style: italic; */
-    color: #999;
-  }
-</style>
-
 # JavaScript 課題
 
 ## 1.文字列操作
 
-### 1-1.変数 str に「いろ」という文字列を代入した後、str に文字列「にほへと」を結合して「いろはにほへと」と表示せよ。<br>なお、文字列操作関数は使用しない。
+### 1-1.変数 str に「いろは」という文字列を代入した後、str に文字列「にほへと」を結合して「いろはにほへと」と表示せよ。<br>なお、文字列操作関数は使用しない。
 
 #### 実行結果
 
@@ -69,8 +11,6 @@
 ### 1-2.変数 str に任意の文字列を代入し、その後その文字列の長さを表示せよ。
 
 #### 実行結果
-
-<!-- フォーマットで間に空白はいるから後で直す -->
 
 ##### str に 「js課題」を代入した場合
 
@@ -202,17 +142,14 @@ alert の表記では全角半角の区別がつかないがこちらは全角
 
 #### 関数仕様
 
-- 引数は 2 つで金額と税率（%）を受け取る。
-- 税率はデフォルト引数とし、値が渡されなかった場合は税率 8%とする。
+- 引数は 1 つで数値（金額）を受け取る。
+- 税率は 10%とする。
+- 小数点以下は切り捨てる。
 - 税込金額を返す。
 
 #### 実行結果
 
-##### calcTax(price)、price が 600 の場合。
-
-![js](img/20200428135805.png)
-
-##### calcTax(price, 10)、price が 600 の場合。
+##### price が 600 の場合。
 
 ![js](img/20200428141847.png)
 
@@ -221,9 +158,6 @@ alert の表記では全角半角の区別がつかないがこちらは全角
 ## 5.DOM 操作とフォーム
 
 ### 5-1.問 4-3 を改造し、価格の入力をテキストボックスから行い、「計算」ボタンを押下することで税込み金額が表示されるようにせよ。
-
-今回税率の入力は実装しなくてもよい。  
-また、ボタン押下で直接関数 calcTax を呼び出し、その中で値の取得と alert 表示するように書き換えてもよい。
 
 <div class="page"></div>
 
@@ -248,7 +182,7 @@ alert の表記では全角半角の区別がつかないがこちらは全角
 
 ##### 価格のテキストにカーソルが乗っている場合
 
-![js](img/20200428175207.png)
+![](img/20200513164932.png)
 
 <div class="page"></div>
 

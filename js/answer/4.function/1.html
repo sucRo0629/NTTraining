@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>js課題4-1</title>
+  <script>
+    function isError(number) {
+      if (1 <= number && number <= 10) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    const num = 4;
+    let result = '';
+
+    if (isError(num)) {
+      result += 'エラー';
+    } else {
+      result += '正常';
+    }
+
+    alert(result + '\nnum=' + num);
+  </script>
+</head>
+<body>
+  <p>
+    4.1.問 3-1 の判定処理を関数化し、関数 isError を作成せよ。
+  </p>
+  <p>
+    <b>関数仕様</b>
+    <ul>
+      <li>引数は 1 つで数値を受け取る。</li>
+      <li>エラーなら「true」、正常なら「false」を返す。</li>
+    </ul>
+  </p>
+  <p>
+    3-1.変数 num に任意の数値を代⼊し、制御⽂を⽤いて num が 1 〜 10 の場合は「正常」それ以外は「エラー」と 表⽰せよ。
+  </p>
+</body>
+</html>
