@@ -5,14 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>js課題4-2</title>
   <script>
-    const arr = [123, 456, 789];
-    let result = 0;
+    function arrSum(arr) {
+      let result = 0;
+      for (let i = 0; i < arr.length; i++) {
+        result += arr[i];
+      }
 
-    for (let i = 0; i < arr.length; i++) {
-      result += arr[i];
+      return result;
     }
 
-    alert('配列=' + arr + '\n合計=' + result);
+    // Array.prototype.reduceで実装した場合
+    function arrSum2(arr) {
+      return arr.reduce((previous, current) => previous + current, 0);
+    }
+
+    const arr = [123, 456, 789];
+
+    alert(`配列=${arr}\n合計=${arrSum(arr)}`);
+    alert(`reduce版\n配列=${arr}\n合計=${arrSum(arr)}`);
+
   </script>
 </head>
 <body>
