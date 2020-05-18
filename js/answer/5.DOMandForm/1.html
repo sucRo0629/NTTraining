@@ -8,7 +8,7 @@
     function calc() {
       const price = document.getElementById('input').value;
 
-      alert('税別:' + price + '\n税込:' + calcTax(price));
+      alert(`税別:${price}円\n税込:${calcTax(price)}円`);
     }
 
     function calcTax(price) {
@@ -18,7 +18,7 @@
     function calcTax2() {
       const price = document.getElementById('input2').value;
 
-      alert('税別:' + price + '\n税込:' + Math.floor(price * 1.1));
+      alert(`税別:${price}円\n税込:${Math.floor(price * 1.1)}円`);
     }
   </script>
 </head>

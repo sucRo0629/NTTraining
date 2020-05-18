@@ -14,15 +14,12 @@
     }
 
     const num = 4;
-    let result = '';
 
     if (isError(num)) {
-      result += 'エラー';
+      alert(`エラー\nnum= ${num}`);
     } else {
-      result += '正常';
+      alert(`正常\nnun=${num}`);
     }
-
-    alert(result + '\nnum=' + num);
   </script>
 </head>
 <body>

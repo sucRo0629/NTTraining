@@ -12,7 +12,11 @@
       result += arr[i];
     }
 
-    alert('配列=' + arr + '\n合計=' + result);
+    alert(`配列= ${arr}\n合計= ${result}`);
+
+    // Array.prototype.reduceで実装した場合
+    const result2 = arr.reduce((previous, current) => previous + current, 0);
+    alert(`reduce版\n配列= ${arr}\n合計= ${result2}`);
   </script>
 </head>
 <body>
