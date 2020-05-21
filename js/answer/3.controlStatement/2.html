@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>js課題3-2</title>
+  <script>
+    const arr = [123, 456, 789];
+    let result = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+      result += arr[i];
+    }
+
+    alert(`配列= ${arr}\n合計= ${result}`);
+
+    // Array.prototype.reduceで実装した場合
+    const result2 = arr.reduce((previous, current) => previous + current, 0);
+    alert(`reduce版\n配列= ${arr}\n合計= ${result2}`);
+  </script>
+</head>
+<body>
+  <p>
+    3-2.数字が⼊った任意の配列 arr を宣⾔し、制御⽂を⽤いて配列の各要素の和を表⽰せよ。
+  </p>
+</body>
+</html>

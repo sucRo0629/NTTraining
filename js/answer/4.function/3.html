@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>js課題4-3</title>
+  <script>
+    function calcTax(price) {
+      return Math.floor(price * 1.1);
+    }
+
+    const price = 123;
+
+    alert(`税別: ${price}円\n税込: ${calcTax(price)}円`);
+  </script>
+</head>
+<body>
+  <p>
+    4-3.⼊⼒された⾦額に応じた消費税を返却する関数 calcTax を作成せよ。<br>
+    その後変数 price に任意の⾦額を代⼊し、税込みの⾦額を表⽰せよ。
+  </p>
+  <p>
+    <b>関数仕様</b>
+    <ul>
+      <li>引数は 1 つで数値（金額）を受け取る。</li>
+      <li>税率は 10%とする。</li>
+      <li>小数点以下は切り捨てる。</li>
+      <li>税込⾦額を返す。</li>
+    </ul>
+  </p>
+</body>
+</html>
