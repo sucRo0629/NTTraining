@@ -243,7 +243,7 @@ public function test () {
 
   return view('ビュー', [
     'test1' => $iroha,
-    'test2' => $nihoheto'
+    'test2' => $nihoheto
   ]);
 }
 ```
