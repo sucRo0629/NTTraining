@@ -764,7 +764,6 @@ $sample_code = $request->old('fieldName');
     </ul>
   </div>
   @endif {{ csrf_field() }}
-</form>
 ```
 
 <div class="page"></div>
@@ -810,7 +809,7 @@ $sample_code = $request->old('fieldName');
     </p>
   </div>
   <br>
-  <input type="submit" value="登録" class="btn btn-primary">
+  <input type="submit" value="ログイン" class="btn btn-primary">
 </form>
 @stop
 ```
