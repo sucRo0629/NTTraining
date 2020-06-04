@@ -449,7 +449,7 @@ MVC の V ... View にあたる。
     </div>
   </div>
   <br>
-  <input type="submit" value="登録" class="btn btn-primary">
+  <input type="submit" value="ログイン" class="btn btn-primary">
 </form>
 @stop
 ```
