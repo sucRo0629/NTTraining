@@ -151,14 +151,13 @@ php artisan make:model 〈モデル名〉
 
 ### モデル作成コマンドの実行
 
-モデル名を以下のように書くことで Models フォルダ（新規作成される）の下にモデルが作成される。  
-今回は`-m`オプションを付けることでマイグレーションも同時に生成している。
+モデル名を以下のように書くことで Models フォルダ（新規作成される）の下にモデルが作成される。
 
 ```bash
-php artisan make:model Models/User -m
+php artisan make:model Models/User
 ```
 
-実行後`app\Model\`に`User.php`、`database\migrations\`に`〈作成日時〉_create_users_table.php`が作成される。
+実行後`app\Model\`に`User.php`が作成される。
 
 <div class="page"></div>
 
@@ -177,7 +176,8 @@ Laravel のドキュメントにおいては、マイグレーションとは DB
 
 ### マイグレーション生成
 
-本資料ではモデル作成の項で併せて生成したため、ここではマイグレーション単独の構文を示すのみに留める。
+本資料では既に存在するマイグレーションファイルを編集するため、新たに生成することはしない。  
+よってここではマイグレーション単独の構文を示すのみに留める。
 
 ```bash
 php artisan make:migration 〈作成するファイル名〉 --create=〈テーブル名〉
@@ -187,7 +187,8 @@ php artisan make:migration 〈作成するファイル名〉 --create=〈テー�
 
 ### マイグレーションファイルの編集
 
-生成されたファイルには up と down の 2 つのメソッドが書かれている。  
+`database\migrations\`に既に`〈作成日時〉_create_users_table.php`という形式の名前でマイグレーションファイルが1つ存在している（存在していなければ上項目のコマンドを実行し生成すること）。  
+マイグレーションファイルには up と down の 2 つのメソッドが書かれている。  
 up メソッドがマイグレーションを実行する際の処理、down メソッドがマイグレーションをロールバックする際の処理である。
 
 今回ロールバックは行わないため、up メソッドの内容のみを編集していく。
@@ -200,7 +201,8 @@ up メソッドがマイグレーションを実行する際の処理、down メ
 
 #### カラム追加
 
-オートインクリメントとプライマリキーの設定がされた ID カラムは既に作成されているため、それ以外のカラムについてカラムメソッドを追加する。
+オートインクリメントとプライマリキーの設定がされた ID カラムは既に作成されているため、それ以外のカラムについてカラムメソッドを追加する。  
+up メソッドは以下のようになる。
 
 【database\migrations\〈作成日時〉\_users_table.php】
 
@@ -209,9 +211,9 @@ up メソッドがマイグレーションを実行する際の処理、down メ
   {
       Schema::create('users', function (Blueprint $table) {
           $table->increments('id');
-+         $table->string('name');
-+         $table->string('password');
-+         $table->integer('authority');
+          $table->string('name');
+          $table->string('password');
+          $table->integer('authority');
           $table->timestamps();
       });
   }
@@ -578,9 +580,21 @@ class LoginController extends Controller
     // リクエストパラメータを配列として全件取得
     $input = $request->all();
 
-    // 好きな方法でViewに値を渡す
-    // return view('login/result', ['input' => $input]);
-    // return view('login/result', compact('input'));
+    // 権限はNOT NULLのため入力されてなければすぐ弾いていい
+    if (!isset($input['authority'])) {
+      return view('login/login');
+    }
+
+    // DBのデータと照合
+    $db_result = User::where('name', $input['name'])
+    ->where('password', $input['password'])
+    ->where('authority', $input['authority'])
+    ->get();
+
+    // 一致するデータなし
+    if (count($db_result) == 0) {
+      return view('login/login');
+    }
     return view('login/result')->with('input', $input);
   }
 }
