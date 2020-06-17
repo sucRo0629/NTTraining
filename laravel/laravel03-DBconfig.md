@@ -578,9 +578,21 @@ class LoginController extends Controller
     // リクエストパラメータを配列として全件取得
     $input = $request->all();
 
-    // 好きな方法でViewに値を渡す
-    // return view('login/result', ['input' => $input]);
-    // return view('login/result', compact('input'));
+    // 権限はNOT NULLのため入力されてなければすぐ弾いていい
+    if (!isset($input['authority'])) {
+      return view('login/login');
+    }
+
+    // DBのデータと照合
+    $db_result = User::where('name', $input['name'])
+    ->where('password', $input['password'])
+    ->where('authority', $input['authority'])
+    ->get();
+
+    // 一致するデータなし
+    if (count($db_result) == 0) {
+      return view('login/login');
+    }
     return view('login/result')->with('input', $input);
   }
 }
